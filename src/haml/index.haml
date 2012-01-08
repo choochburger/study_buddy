@@ -5,3 +5,11 @@
     %script{:type => "text/javascript", :src => "javascripts/jquery.min.js"}
     %script{:type => "text/javascript", :src => "javascripts/jquery.mobile.min.js"}
     %script{:type => "text/javascript", :src => "javascripts/application.js"}
+
+%ul{"data-role" => "listview", :id => "choose-list"}
+  %li
+    %input{:type => "checkbox", :id => "checkbox-0"}
+    %label{:for => "checkbox-0"} item 1
+  %li
+    %input{:type => "checkbox", :id => "checkbox-1"}
+    %label{:for => "checkbox-1"} item 2
