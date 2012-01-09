@@ -1,23 +1,15 @@
 (function() {
 
   $(function() {
-    var addCategories;
-    addCategories = function() {
-      return $.ajax({
-        url: 'data.json',
-        dataType: 'json',
-        success: function(data) {
-          var category, name, _results;
-          _results = [];
-          for (category in data) {
-            name = data[category];
-            _results.push(console.log(name));
-          }
-          return _results;
-        }
-      });
+    SB.App = {
+      init: function() {
+        return this.addCategories();
+      },
+      addCategories: function() {
+        return console.log(SB.Data);
+      }
     };
-    return addCategories();
+    return SB.App.init();
   });
 
 }).call(this);

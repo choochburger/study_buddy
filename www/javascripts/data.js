@@ -1,4 +1,6 @@
-{
+var SB = window.SB || {};
+
+SB.Data = {
   "Colors": [
     ["Color", "See"],
     ["Black", "See Dam"],

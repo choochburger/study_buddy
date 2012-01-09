@@ -1,12 +1,8 @@
 $ ->
+  SB.App =
+    init: ->
+      @addCategories()
+    addCategories: ->
+      console.log(SB.Data)
 
-  addCategories = ->
-    $.ajax {
-      url: 'data.json'
-      dataType: 'json'
-      success: (data) ->
-        for category, name of data
-          console.log name
-    }
-
-  addCategories()
+  SB.App.init()
