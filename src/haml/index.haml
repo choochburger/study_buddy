@@ -1,17 +1,42 @@
 !!! 5
 %html
   %head
-    %link(rel="stylesheet" type="text/css" href="stylesheets/jquery.mobile.min.css")
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1"}
+    %link{:rel => "stylesheet", 
+          :type => "text/css",
+          :href => "stylesheets/jquery.mobile.min.css"}
     %script{:type => "text/javascript", :src => "javascripts/jquery.min.js"}
     %script{:type => "text/javascript", :src => "javascripts/jquery.mobile.min.js"}
     / bootstrap data
     %script{:type => "text/javascript", :src => "javascripts/data.js"}
     %script{:type => "text/javascript", :src => "javascripts/application.js"}
 
-%ul{"data-role" => "listview", :id => "choose-list"}
-  %li
-    %input{:type => "checkbox", :id => "checkbox-0"}
-    %label{:for => "checkbox-0"} item 1
-  %li
-    %input{:type => "checkbox", :id => "checkbox-1"}
-    %label{:for => "checkbox-1"} item 2
+/ main page: categories
+%div{"data-role" => "page", :id => "categories"}
+  %div{"data-role" => "header"}
+    <h4>Categories</h4>
+
+  %ul{"data-role" => "listview", :id => "choose-list"}
+    %li
+      %input{:type => "checkbox", :id => "checkbox-0"}
+      %label{:for => "checkbox-0"} item 1
+    %li
+      %input{:type => "checkbox", :id => "checkbox-1"}
+      %label{:for => "checkbox-1"} item 2
+
+  %div{"data-position" => "fixed",
+       "data-role" => "footer"}
+    %a{:href => "#quiz", "data-role" => "button"}
+      Begin
+/ end categories
+
+/ quiz page
+%div{"data-role" => "page", :id => "quiz"}
+  %div{"data-position" => "fixed",
+       "data-role" => "footer"}
+    %a{:href => "#categories", 
+       "data-icon" => "home",
+       "data-role" => "button", 
+       "data-direction" => "reverse"}
+      Back
+/ end quiz
