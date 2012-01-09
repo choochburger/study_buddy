@@ -7,22 +7,17 @@
           :href => "stylesheets/jquery.mobile.min.css"}
     %script{:type => "text/javascript", :src => "javascripts/jquery.min.js"}
     %script{:type => "text/javascript", :src => "javascripts/jquery.mobile.min.js"}
+    %script{:type => "text/javascript", :src => "javascripts/handlebars.js"}
     / bootstrap data
     %script{:type => "text/javascript", :src => "javascripts/data.js"}
     %script{:type => "text/javascript", :src => "javascripts/application.js"}
 
 / main page: categories
-%div{"data-role" => "page", :id => "categories"}
+%div{"data-role" => "page", :id => "main"}
   %div{"data-role" => "header"}
     <h4>Categories</h4>
 
-  %ul{"data-role" => "listview", :id => "choose-list"}
-    %li
-      %input{:type => "checkbox", :id => "checkbox-0"}
-      %label{:for => "checkbox-0"} item 1
-    %li
-      %input{:type => "checkbox", :id => "checkbox-1"}
-      %label{:for => "checkbox-1"} item 2
+  %ul{"data-role" => "listview", :id => "categories"}
 
   %div{"data-position" => "fixed",
        "data-role" => "footer"}
@@ -34,9 +29,18 @@
 %div{"data-role" => "page", :id => "quiz"}
   %div{"data-position" => "fixed",
        "data-role" => "footer"}
-    %a{:href => "#categories", 
+    %a{:href => "#main", 
        "data-icon" => "home",
        "data-role" => "button", 
        "data-direction" => "reverse"}
       Back
 / end quiz
+
+/ templates
+%script{:id => "category-list-template",
+        :type => "text/x-handlebars-template"}
+  {{#each this}}
+  %li
+    %input{:type => "checkbox", :id => "checkbox-{{index}}"}
+    %label{:for => "checkbox-{{index}}"}{{name}}
+  {{/each}}

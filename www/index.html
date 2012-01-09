@@ -5,26 +5,18 @@
     <link href='stylesheets/jquery.mobile.min.css' rel='stylesheet' type='text/css' />
     <script src='javascripts/jquery.min.js' type='text/javascript'></script>
     <script src='javascripts/jquery.mobile.min.js' type='text/javascript'></script>
+    <script src='javascripts/handlebars.js' type='text/javascript'></script>
     <!-- bootstrap data -->
     <script src='javascripts/data.js' type='text/javascript'></script>
     <script src='javascripts/application.js' type='text/javascript'></script>
   </head>
 </html>
 <!-- main page: categories -->
-<div data-role='page' id='categories'>
+<div data-role='page' id='main'>
   <div data-role='header'>
     <h4>Categories</h4>
   </div>
-  <ul data-role='listview' id='choose-list'>
-    <li>
-      <input id='checkbox-0' type='checkbox' />
-      <label for='checkbox-0'>item 1</label>
-    </li>
-    <li>
-      <input id='checkbox-1' type='checkbox' />
-      <label for='checkbox-1'>item 2</label>
-    </li>
-  </ul>
+  <ul data-role='listview' id='categories'></ul>
   <div data-position='fixed' data-role='footer'>
     <a data-role='button' href='#quiz'>
       Begin
@@ -35,9 +27,18 @@
 <!-- quiz page -->
 <div data-role='page' id='quiz'>
   <div data-position='fixed' data-role='footer'>
-    <a data-direction='reverse' data-icon='home' data-role='button' href='#categories'>
+    <a data-direction='reverse' data-icon='home' data-role='button' href='#main'>
       Back
     </a>
   </div>
 </div>
 <!-- end quiz -->
+<!-- templates -->
+<script id='category-list-template' type='text/x-handlebars-template'>
+  {{#each this}}
+  <li>
+    <input id='checkbox-{{index}}' type='checkbox' />
+    <label for='checkbox-{{index}}'>{{name}}</label>
+  </li>
+  {{/each}}
+</script>
