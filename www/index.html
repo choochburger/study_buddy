@@ -16,7 +16,7 @@
   <div data-role='header'>
     <h4>Categories</h4>
   </div>
-  <ul data-role='listview' id='categories'></ul>
+  <div data-role='controlgroup' id='categories'></div>
   <div data-position='fixed' data-role='footer'>
     <a data-role='button' href='#quiz'>
       Begin
@@ -37,7 +37,7 @@
 <script id='category-list-template' type='text/x-handlebars-template'>
   {{#each this}}
   <li>
-    <input id='checkbox-{{index}}' type='checkbox' />
+    <input id='checkbox-{{index}}' name='checkbox-{{index}}' type='checkbox' />
     <label for='checkbox-{{index}}'>{{name}}</label>
   </li>
   {{/each}}

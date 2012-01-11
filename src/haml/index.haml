@@ -17,7 +17,7 @@
   %div{"data-role" => "header"}
     <h4>Categories</h4>
 
-  %ul{"data-role" => "listview", :id => "categories"}
+  %div{"data-role" => "controlgroup", :id => "categories"}
 
   %div{"data-position" => "fixed",
        "data-role" => "footer"}
@@ -41,6 +41,8 @@
         :type => "text/x-handlebars-template"}
   {{#each this}}
   %li
-    %input{:type => "checkbox", :id => "checkbox-{{index}}"}
-    %label{:for => "checkbox-{{index}}"}{{name}}
+    %input{:type => "checkbox", 
+           :name => "checkbox-{{index}}", 
+           :id => "checkbox-{{index}}"}
+    %label{:for => "checkbox-{{index}}"} {{name}}
   {{/each}}

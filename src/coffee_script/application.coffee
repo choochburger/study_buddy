@@ -3,15 +3,17 @@ $ ->
     init: ->
       @addCategories()
     addCategories: ->
-      context = for category, i of SB.Data
+      # is there a better way to get the iteration index here?
+      index = -1
+      context = for category of SB.Data
+        index++
         obj =
-          # need to get the actual index here
-          index: 0
+          index: index
           name: category
 
-      $ul = $('#main ul')
-      $(SB.Templates.categories(context)).appendTo($ul)
-      $ul.listview('refresh')
+      $container = $('#main #categories')
+      $(SB.Templates.categories(context)).appendTo($container)
+      $('#main').trigger('create')
 
   SB.Templates =
     categories:
