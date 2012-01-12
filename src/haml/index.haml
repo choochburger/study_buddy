@@ -13,36 +13,57 @@
     %script{:type => "text/javascript", :src => "javascripts/application.js"}
 
 / main page: categories
-%div{"data-role" => "page", :id => "main"}
+#main{"data-role" => "page"}
   %div{"data-role" => "header"}
-    <h4>Categories</h4>
+    %h4 Categories
 
-  %div{"data-role" => "controlgroup", :id => "categories"}
+  #categories{"data-role" => "controlgroup"}
 
   %div{"data-position" => "fixed",
        "data-role" => "footer"}
-    %a{:href => "#quiz", "data-role" => "button"}
+    %a#begin-quiz{"data-role" => "button",
+                  :href => "#quiz"}
       Begin
 / end categories
 
 / quiz page
-%div{"data-role" => "page", :id => "quiz"}
-  %div{"data-position" => "fixed",
-       "data-role" => "footer"}
+#quiz{"data-role" => "page"}
+  %div{"data-role" => "header"}
     %a{:href => "#main", 
        "data-icon" => "home",
        "data-role" => "button", 
-       "data-direction" => "reverse"}
-      Back
+       "data-direction" => "reverse"} Back
+    %h4 
+      %span#question-count
+
+  #content
+
+  %div{"data-position" => "fixed",
+       "data-role" => "footer"}
+    %a{"data-icon" => "refresh",
+       "data-role" => "button"} 
+      Shuffle
+    %a{"data-icon" => "check",
+       "data-role" => "button"} 
+      Got It!
+    %a{"data-icon" => "arrow-r",
+       "data-role" => "button"} 
+      Next Question
+      
 / end quiz
 
 / templates
-%script{:id => "category-list-template",
-        :type => "text/x-handlebars-template"}
+%script#category-list-template{:type => "text/x-handlebars-template"}
   {{#each this}}
   %li
     %input{:type => "checkbox", 
            :name => "checkbox-{{index}}", 
-           :id => "checkbox-{{index}}"}
+           :id => "checkbox-{{index}}",
+           :index => "{{index}}"}
     %label{:for => "checkbox-{{index}}"} {{name}}
   {{/each}}
+
+%script#question-template{:type => "text/x-handlebars-template"}
+  %div{"data-role" => "collapsible"}
+    %h3.question {{question}}
+    %p.answer {{answer}}

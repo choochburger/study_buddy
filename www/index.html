@@ -18,7 +18,7 @@
   </div>
   <div data-role='controlgroup' id='categories'></div>
   <div data-position='fixed' data-role='footer'>
-    <a data-role='button' href='#quiz'>
+    <a data-role='button' href='#quiz' id='begin-quiz'>
       Begin
     </a>
   </div>
@@ -26,9 +26,22 @@
 <!-- end categories -->
 <!-- quiz page -->
 <div data-role='page' id='quiz'>
+  <div data-role='header'>
+    <a data-direction='reverse' data-icon='home' data-role='button' href='#main'>Back</a>
+    <h4>
+      <span id='question-count'></span>
+    </h4>
+  </div>
+  <div id='content'></div>
   <div data-position='fixed' data-role='footer'>
-    <a data-direction='reverse' data-icon='home' data-role='button' href='#main'>
-      Back
+    <a data-icon='refresh' data-role='button'>
+      Shuffle
+    </a>
+    <a data-icon='check' data-role='button'>
+      Got It!
+    </a>
+    <a data-icon='arrow-r' data-role='button'>
+      Next Question
     </a>
   </div>
 </div>
@@ -37,8 +50,14 @@
 <script id='category-list-template' type='text/x-handlebars-template'>
   {{#each this}}
   <li>
-    <input id='checkbox-{{index}}' name='checkbox-{{index}}' type='checkbox' />
+    <input id='checkbox-{{index}}' index='{{index}}' name='checkbox-{{index}}' type='checkbox' />
     <label for='checkbox-{{index}}'>{{name}}</label>
   </li>
   {{/each}}
+</script>
+<script id='question-template' type='text/x-handlebars-template'>
+  <div data-role='collapsible'>
+    <h3 class='question'>{{question}}</h3>
+    <p class='answer'>{{answer}}</p>
+  </div>
 </script>
