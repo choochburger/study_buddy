@@ -30,14 +30,14 @@ $ ->
         for question in category.items
           bank.push question
 
-      @nextQuestion bank[0], bank
+      @nextQuestion bank, 0
 
-    nextQuestion: (question, bank) ->
+    nextQuestion: (bank, index) ->
       # TODO: get rid of indexes and use named properties. keeping it this
       #       way for now b/c i'm manually entering data for testing
       context =
-        question: question[0]
-        answer: question[1]
+        question: bank[index][0]
+        answer:   bank[index][1]
       $contentEl = $('#quiz #content')
       $contentEl.empty()
       html = SB.Templates.question(context)
@@ -45,9 +45,39 @@ $ ->
       item.collapsible()
       $('#quiz #question-count').text(bank.length+' remaining')
 
+      # TODO: refactor these into non-inline methods
+      #       nextQuestion() is getting too long and varied
+
+      # TODO: sloppy. don't need to continuosly bind/unbind things like this
+      $('#quiz #shuffle-btn, #quiz #got-it-btn, #quiz #next-question-btn').unbind('click')
+
+      $('#quiz #shuffle-btn').click (e) =>
+        bank.shuffle()
+        @nextQuestion(bank, 0)
+
+      $('#quiz #got-it-btn').click (e) =>
+        bank.remove(index)
+        if bank.length is 0 then alert 'DONE' else @nextQuestion bank, index
+
+      $('#quiz #next-question-btn').click (e) =>
+        index++
+        index = 0 if index is bank.length
+        @nextQuestion bank, index
+
   SB.Templates =
     categories: Handlebars.compile $('#category-list-template').html()
     question:   Handlebars.compile $('#question-template').html()
 
   # kick this shit off
   SB.App.init()
+
+# sort method ripped from coffeescriptcookbook.com
+Array::shuffle = -> @sort -> 0.5 - Math.random()
+
+# array remove stolen from jresig's blog and converted to coffeescript
+Array::remove = (from, to) ->
+  rest = @.slice((to or from) + 1 or @.length)
+  @.length = if from < 0 then @.length + from else from
+  @.push.apply @, rest
+
+return

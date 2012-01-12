@@ -39,20 +39,39 @@
             bank.push(question);
           }
         }
-        return this.nextQuestion(bank[0], bank);
+        return this.nextQuestion(bank, 0);
       },
-      nextQuestion: function(question, bank) {
-        var $contentEl, context, html, item;
+      nextQuestion: function(bank, index) {
+        var $contentEl, context, html, item,
+          _this = this;
         context = {
-          question: question[0],
-          answer: question[1]
+          question: bank[index][0],
+          answer: bank[index][1]
         };
         $contentEl = $('#quiz #content');
         $contentEl.empty();
         html = SB.Templates.question(context);
         item = $(html).appendTo($contentEl);
         item.collapsible();
-        return $('#quiz #question-count').text(bank.length + ' remaining');
+        $('#quiz #question-count').text(bank.length + ' remaining');
+        $('#quiz #shuffle-btn, #quiz #got-it-btn, #quiz #next-question-btn').unbind('click');
+        $('#quiz #shuffle-btn').click(function(e) {
+          bank.shuffle();
+          return _this.nextQuestion(bank, 0);
+        });
+        $('#quiz #got-it-btn').click(function(e) {
+          bank.remove(index);
+          if (bank.length === 0) {
+            return alert('DONE');
+          } else {
+            return _this.nextQuestion(bank, index);
+          }
+        });
+        return $('#quiz #next-question-btn').click(function(e) {
+          index++;
+          if (index === bank.length) index = 0;
+          return _this.nextQuestion(bank, index);
+        });
       }
     };
     SB.Templates = {
@@ -61,5 +80,20 @@
     };
     return SB.App.init();
   });
+
+  Array.prototype.shuffle = function() {
+    return this.sort(function() {
+      return 0.5 - Math.random();
+    });
+  };
+
+  Array.prototype.remove = function(from, to) {
+    var rest;
+    rest = this.slice((to || from) + 1 || this.length);
+    this.length = from < 0 ? this.length + from : from;
+    return this.push.apply(this, rest);
+  };
+
+  return;
 
 }).call(this);
