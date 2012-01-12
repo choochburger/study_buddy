@@ -38,16 +38,12 @@
 
   #content
 
-  %div{"data-position" => "fixed",
-       "data-role" => "footer"}
-    %a{"data-icon" => "refresh",
-       "data-role" => "button"} 
+  %div{"data-role" => "footer", "data-position" => "fixed"}
+    %a#shuffle-btn{"data-icon" => "refresh", "data-role" => "button"} 
       Shuffle
-    %a{"data-icon" => "check",
-       "data-role" => "button"} 
+    %a#got-it-btn{"data-icon" => "check", "data-role" => "button"} 
       Got It!
-    %a{"data-icon" => "arrow-r",
-       "data-role" => "button"} 
+    %a#next-question-btn{"data-icon" => "arrow-r", "data-role" => "button"} 
       Next Question
       
 / end quiz
