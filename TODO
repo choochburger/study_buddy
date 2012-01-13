@@ -1,0 +1,2 @@
+* Create a simple Rails app that users can log into and create simple lists with categories and Q/A pairs
+* Allow user to enter a url to pull down json into local storage
