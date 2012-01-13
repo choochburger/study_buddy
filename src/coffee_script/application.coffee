@@ -57,12 +57,16 @@ $ ->
 
       $('#quiz #got-it-btn').click (e) =>
         bank.remove(index)
-        if bank.length is 0 then alert 'DONE' else @nextQuestion bank, index
+        if bank.length is 0 then @quizComplete() else @nextQuestion bank, index
 
       $('#quiz #next-question-btn').click (e) =>
         index++
         index = 0 if index is bank.length
         @nextQuestion bank, index
+
+    quizComplete: ->
+      alert 'Nice job!'
+      $.mobile.changePage($('#main'))
 
   SB.Templates =
     categories: Handlebars.compile $('#category-list-template').html()

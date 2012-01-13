@@ -62,7 +62,7 @@
         $('#quiz #got-it-btn').click(function(e) {
           bank.remove(index);
           if (bank.length === 0) {
-            return alert('DONE');
+            return _this.quizComplete();
           } else {
             return _this.nextQuestion(bank, index);
           }
@@ -72,6 +72,10 @@
           if (index === bank.length) index = 0;
           return _this.nextQuestion(bank, index);
         });
+      },
+      quizComplete: function() {
+        alert('Nice job!');
+        return $.mobile.changePage($('#main'));
       }
     };
     SB.Templates = {
