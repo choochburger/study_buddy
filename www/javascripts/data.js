@@ -55,7 +55,8 @@ SB.Data = {
       "name": "Commands",
       "items": [
         ["Read that","Aan Wa"],
-        ["Spell please", "Sa goat ka/krap"]
+        ["Spell please", "Sa goat ka/krap"],
+        ["Give ___ to me", "Song ___ hi pom/chun"]
       ]
     },
 
@@ -64,6 +65,13 @@ SB.Data = {
       "items": [
         ["Is that right?", "Chai mai?"],
         ["What is this?", "Knee arye?"]
+      ]
+    },
+
+    {
+      "name": "Responses",
+      "items": [
+        ["No it is not a ___, but it is a ___", "Mai, knee mai chai ___, dtai(r) knee kuhh ___"]
       ]
     },
 
@@ -83,7 +91,7 @@ SB.Data = {
     },
 
     {
-      "name": "conjunctions",
+      "name": "Conjunctions",
       "items": [
         ["But", "Dtai(r)"]
       ]
@@ -92,7 +100,8 @@ SB.Data = {
     {
       "name": "Verbs",
       "items": [
-        ["Is (for an object)", "Kuhh"]
+        ["Is (for an object)", "Kuhh"],
+        ["Give", "Yib"]
       ]
     },
 
@@ -101,6 +110,13 @@ SB.Data = {
       "items": [
         ["I", "Pom"],
         ["You", "Koon"]
+      ]
+    },
+
+    {
+      "name": "Adverbs",
+      "items": [
+        ["Please", "Ga-roo-na"]
       ]
     },
 
