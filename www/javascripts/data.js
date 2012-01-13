@@ -19,6 +19,21 @@ SB.Data = {
     },
 
     {
+      "name": "Classroom",
+      "items": [
+        ["Pen","Bpak Ga"],
+        ["Pencil","Din Sor"],
+        ["Book","Nang Seuhr"],
+        ["Table","Dto"],
+        ["Chair","Gau-ee"],
+        ["Light","Lawd-fye"],
+        ["Wall","Fa-panang"],
+        ["Floor","Peuhne"],
+        ["Room","Hong"],
+      ]
+    },
+
+    {
       "name": "Numbers",
       "items": [
         ["One", "Neung"],
