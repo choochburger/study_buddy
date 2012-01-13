@@ -1,3 +1,9 @@
+/**
+ * This will eventually be pulled from a server and cached in
+ * local storage to allow customization. For now, we'll bootstrap
+ * some Thai vocab shit up in this
+ **/
+
 var SB = window.SB || {};
 
 SB.Data = {
@@ -19,7 +25,7 @@ SB.Data = {
     },
 
     {
-      "name": "Classroom",
+      "name": "Classroom/House",
       "items": [
         ["Pen","Bpak Ga"],
         ["Pencil","Din Sor"],
@@ -30,6 +36,57 @@ SB.Data = {
         ["Wall","Fa-panang"],
         ["Floor","Peuhne"],
         ["Room","Hong"],
+        ["Ceiling","Paydahn"],
+        ["Window","Nahdahng"],
+        ["Door","Bradoo"],
+        ["Picture","Ru-paab"]
+      ]
+    },
+
+    {
+      "name": "Misc Items",
+      "items": [
+        ["Card", "Gahdt"],
+        ["Box", "Glong"]
+      ]
+    },
+
+    {
+      "name": "Commands",
+      "items": [
+        ["Read that","Aan Wa"],
+        ["Spell please", "Sa goat ka/krap"]
+      ]
+    },
+
+    {
+      "name": "Questions",
+      "items": [
+        ["Is that right?", "Chai mai?"],
+        ["What is this?", "Knee arye?"]
+      ]
+    },
+
+    {
+      "name": "Statements",
+      "items": [
+        ["This is", "Knee"]
+      ]
+    },
+
+    {
+      "name": "Exclamations",
+      "items": [
+        ["Yes", "Chai"],
+        ["No", "Mai chai"]
+      ]
+    },
+
+    {
+      "name": "Pronouns",
+      "items": [
+        ["I", "Pom"],
+        ["You", "Koon"]
       ]
     },
 
