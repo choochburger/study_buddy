@@ -83,6 +83,20 @@ SB.Data = {
     },
 
     {
+      "name": "conjunctions",
+      "items": [
+        ["But", "Dtai(r)"]
+      ]
+    },
+
+    {
+      "name": "Verbs",
+      "items": [
+        ["Is (for an object)", "Kuhh"]
+      ]
+    },
+
+    {
       "name": "Pronouns",
       "items": [
         ["I", "Pom"],
