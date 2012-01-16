@@ -146,7 +146,7 @@ SB.Data = {
 
     {
       "name": "Adjectives",
-      "items:" [
+      "items": [
         ["Tall", "Soong"],
         ["Short", "Dteeyah"]
       ]
