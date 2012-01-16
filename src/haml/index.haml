@@ -25,6 +25,9 @@
     %a#begin-quiz{"data-role" => "button",
                   :href => "#quiz"}
       Begin
+    %a#load-spreadsheets{"data-role" => "button",
+                         :href => "#spreadsheet-list"}
+      Load Data
 / end categories
 
 / quiz page
@@ -49,6 +52,15 @@
       
 / end quiz
 
+/ data loading page
+#spreadsheet-list{"data-role" => "page"}
+  %div{"data-role" => "header"}
+    %h4 Choose a Spreadsheet
+
+  %ul#spreadsheets{"data-role" => "listview"}
+
+/ end data loading page
+
 / templates
 %script#category-list-template{:type => "text/x-handlebars-template"}
   {{#each this}}
@@ -64,3 +76,9 @@
   %div{"data-role" => "collapsible"}
     %h3.question {{question}}
     %p.answer {{answer}}
+
+%script#spreadsheet-list-template{:type => "text/x-handlebars-template"}
+  {{#each this}}
+  %li
+    %a test1
+  {{/each}}

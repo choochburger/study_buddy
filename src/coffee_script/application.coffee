@@ -1,14 +1,30 @@
 $ ->
   SB.App =
     init: ->
+      @checkHashForAuth()
       @addCategories()
 
       # listen for page loads and act as router
       $(document).bind 'pagechange', @onPageChange
 
+    checkHashForAuth: ->
+      return if location.hash.indexOf('access_token') is -1
+
+      params = location.hash.split('&')
+      params[0] = params[0].split('#')[1]
+      @credentials = {}
+
+      for param in params
+        param = param.split('=')
+        @credentials[param[0]] = param[1]
+
+      $.mobile.changePage($('#spreadsheet-list'))
+
+
     onPageChange: (e, data) =>
       switch location.hash
         when '#quiz' then SB.App.startQuiz()
+        when '#spreadsheet-list' then SB.App.loadSpreadsheets()
 
     addCategories: ->
       # add an index to each data item
@@ -68,9 +84,37 @@ $ ->
       alert 'Nice job!'
       $.mobile.changePage($('#main'))
 
+    loadSpreadsheets: ->
+      if not @credentials
+        @authenticateUser()
+        return
+
+      url = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full?access_token='+@credentials.access_token
+
+      $.ajax {
+        url: url
+        success: ->
+          console.log arguments
+        error: ->
+          console.log arguments
+      }
+
+    authenticateUser: ->
+      baseUrl        = 'https://accounts.google.com/o/oauth2/auth'
+      responseType   = 'response_type=token'
+      clientId       = 'client_id=483114445763.apps.googleusercontent.com'
+      redirectUri    = 'redirect_uri=http://localhost:8888'
+      scope          = 'scope=https://spreadsheets.google.com/feeds/'
+
+      parameters = "#{responseType}&#{clientId}&#{redirectUri}&#{scope}"
+      fullUrl = "#{baseUrl}?#{parameters}"
+
+      window.location = fullUrl
+
   SB.Templates =
-    categories: Handlebars.compile $('#category-list-template').html()
-    question:   Handlebars.compile $('#question-template').html()
+    categories:   Handlebars.compile $('#category-list-template').html()
+    question:     Handlebars.compile $('#question-template').html()
+    spreadsheets: Handlebars.compile $('#spreadsheet-list-template').html()
 
   # kick this shit off
   SB.App.init()

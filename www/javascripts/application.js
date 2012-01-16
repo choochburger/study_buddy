@@ -4,13 +4,29 @@
     var _this = this;
     SB.App = {
       init: function() {
+        this.checkHashForAuth();
         this.addCategories();
         return $(document).bind('pagechange', this.onPageChange);
+      },
+      checkHashForAuth: function() {
+        var param, params, _i, _len;
+        if (location.hash.indexOf('access_token') === -1) return;
+        params = location.hash.split('&');
+        params[0] = params[0].split('#')[1];
+        this.credentials = {};
+        for (_i = 0, _len = params.length; _i < _len; _i++) {
+          param = params[_i];
+          param = param.split('=');
+          this.credentials[param[0]] = param[1];
+        }
+        return $.mobile.changePage($('#spreadsheet-list'));
       },
       onPageChange: function(e, data) {
         switch (location.hash) {
           case '#quiz':
             return SB.App.startQuiz();
+          case '#spreadsheet-list':
+            return SB.App.loadSpreadsheets();
         }
       },
       addCategories: function() {
@@ -76,11 +92,40 @@
       quizComplete: function() {
         alert('Nice job!');
         return $.mobile.changePage($('#main'));
+      },
+      loadSpreadsheets: function() {
+        var url;
+        if (!this.credentials) {
+          this.authenticateUser();
+          return;
+        }
+        url = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full?access_token=' + this.credentials.access_token;
+        return $.ajax({
+          url: url,
+          success: function() {
+            return console.log(arguments);
+          },
+          error: function() {
+            return console.log(arguments);
+          }
+        });
+      },
+      authenticateUser: function() {
+        var baseUrl, clientId, fullUrl, parameters, redirectUri, responseType, scope;
+        baseUrl = 'https://accounts.google.com/o/oauth2/auth';
+        responseType = 'response_type=token';
+        clientId = 'client_id=483114445763.apps.googleusercontent.com';
+        redirectUri = 'redirect_uri=http://localhost:8888';
+        scope = 'scope=https://spreadsheets.google.com/feeds/';
+        parameters = "" + responseType + "&" + clientId + "&" + redirectUri + "&" + scope;
+        fullUrl = "" + baseUrl + "?" + parameters;
+        return window.location = fullUrl;
       }
     };
     SB.Templates = {
       categories: Handlebars.compile($('#category-list-template').html()),
-      question: Handlebars.compile($('#question-template').html())
+      question: Handlebars.compile($('#question-template').html()),
+      spreadsheets: Handlebars.compile($('#spreadsheet-list-template').html())
     };
     return SB.App.init();
   });

@@ -22,6 +22,9 @@
     <a data-role='button' href='#quiz' id='begin-quiz'>
       Begin
     </a>
+    <a data-role='button' href='#spreadsheet-list' id='load-spreadsheets'>
+      Load Data
+    </a>
   </div>
 </div>
 <!-- end categories -->
@@ -47,6 +50,14 @@
   </div>
 </div>
 <!-- end quiz -->
+<!-- data loading page -->
+<div data-role='page' id='spreadsheet-list'>
+  <div data-role='header'>
+    <h4>Choose a Spreadsheet</h4>
+  </div>
+  <ul data-role='listview' id='spreadsheets'></ul>
+</div>
+<!-- end data loading page -->
 <!-- templates -->
 <script id='category-list-template' type='text/x-handlebars-template'>
   {{#each this}}
@@ -61,4 +72,11 @@
     <h3 class='question'>{{question}}</h3>
     <p class='answer'>{{answer}}</p>
   </div>
+</script>
+<script id='spreadsheet-list-template' type='text/x-handlebars-template'>
+  {{#each this}}
+  <li>
+    <a>test1</a>
+  </li>
+  {{/each}}
 </script>
