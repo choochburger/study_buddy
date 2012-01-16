@@ -93,6 +93,7 @@ $ ->
 
       $.ajax {
         url: url
+        dataType: 'jsonp'
         success: ->
           console.log arguments
         error: ->

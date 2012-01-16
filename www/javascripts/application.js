@@ -102,6 +102,7 @@
         url = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full?access_token=' + this.credentials.access_token;
         return $.ajax({
           url: url,
+          dataType: 'jsonp',
           success: function() {
             return console.log(arguments);
           },
