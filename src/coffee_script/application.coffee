@@ -89,16 +89,30 @@ $ ->
         @authenticateUser()
         return
 
-      url = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full?access_token='+@credentials.access_token+'&alt=json-in-script'
+      baseUrl = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full'
+      accessToken = "access_token=#{@credentials.access_token}"
+      alt     = 'alt=json-in-script'
+      url     = "#{baseUrl}?#{accessToken}&#{alt}"
 
+      $.mobile.showPageLoadingMsg()
       $.ajax {
         url: url
         dataType: 'jsonp'
-        success: ->
-          console.log arguments
+        success: (data) =>
+          $.mobile.hidePageLoadingMsg()
+          @renderSpreadsheetList data.feed.entry
         error: ->
-          console.log arguments
+          $.mobile.hidePageLoadingMsg()
+          alert 'Problem fetching data.'
       }
+
+    renderSpreadsheetList: (spreadsheets) ->
+      console.log spreadsheets
+
+      $container = $('#spreadsheet-list ul#spreadsheets')
+      html = SB.Templates.spreadsheets(spreadsheets)
+      $(html).appendTo($container)
+      $container.listview('refresh')
 
     authenticateUser: ->
       baseUrl        = 'https://accounts.google.com/o/oauth2/auth'

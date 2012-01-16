@@ -94,22 +94,37 @@
         return $.mobile.changePage($('#main'));
       },
       loadSpreadsheets: function() {
-        var url;
+        var accessToken, alt, baseUrl, url,
+          _this = this;
         if (!this.credentials) {
           this.authenticateUser();
           return;
         }
-        url = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full?access_token=' + this.credentials.access_token + '&alt=json-in-script';
+        baseUrl = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full';
+        accessToken = "access_token=" + this.credentials.access_token;
+        alt = 'alt=json-in-script';
+        url = "" + baseUrl + "?" + accessToken + "&" + alt;
+        $.mobile.showPageLoadingMsg();
         return $.ajax({
           url: url,
           dataType: 'jsonp',
-          success: function() {
-            return console.log(arguments);
+          success: function(data) {
+            $.mobile.hidePageLoadingMsg();
+            return _this.renderSpreadsheetList(data.feed.entry);
           },
           error: function() {
-            return console.log(arguments);
+            $.mobile.hidePageLoadingMsg();
+            return alert('Problem fetching data.');
           }
         });
+      },
+      renderSpreadsheetList: function(spreadsheets) {
+        var $container, html;
+        console.log(spreadsheets);
+        $container = $('#spreadsheet-list ul#spreadsheets');
+        html = SB.Templates.spreadsheets(spreadsheets);
+        $(html).appendTo($container);
+        return $container.listview('refresh');
       },
       authenticateUser: function() {
         var baseUrl, clientId, fullUrl, parameters, redirectUri, responseType, scope;
