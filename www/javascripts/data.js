@@ -2,6 +2,10 @@
  * This will eventually be pulled from a server and cached in
  * local storage to allow customization. For now, we'll bootstrap
  * some Thai vocab shit up in this
+ *
+ * TODO: Hook this up to a google docs - Allow user to paste in URL to
+ *       a spreadsheet with multiple sheets - Sheet names become category names,
+ *       and 1st/2nd row become item pairs. Cache in local storage as json
  **/
 
 var SB = window.SB || {};
@@ -11,7 +15,7 @@ SB.Data = {
     {
       "name": "Colors",
       "items": [
-        ["Color", "See"],
+        ["Color", "See ฟหกด"],
         ["Black", "See Dam"],
         ["White", "See Khow"],
         ["Green", "See Keeyow"],
@@ -93,7 +97,8 @@ SB.Data = {
     {
       "name": "Conjunctions",
       "items": [
-        ["But", "Dtai(r)"]
+        ["But", "Dtai(r)"],
+        ["Or", "Roo"]
       ]
     },
 
@@ -101,7 +106,10 @@ SB.Data = {
       "name": "Verbs",
       "items": [
         ["Is (for an object)", "Kuhh"],
-        ["Give", "Yib"]
+        ["Give", "Yib"],
+        ["To do or to perform an action", "Thaam"],
+        ["To sit", "Nang"],
+        ["To go", "Bpai"]
       ]
     },
 
@@ -116,7 +124,31 @@ SB.Data = {
     {
       "name": "Adverbs",
       "items": [
-        ["Please", "Ga-roo-na"]
+        ["Please", "Ga-roo-na"],
+        ["How many", "Gee"]
+      ]
+    },
+
+    {
+      "name": "Phrases/Colloquial",
+      "items": [
+        ["...or not?", "Roo blau"]
+      ]
+    },
+
+    {
+      "name": "Possesive Determiners",
+      "items": [
+        ["Our", "Kawng Pooawgrau"],
+        ["Their", "Kawng Pooawkau"]
+      ]
+    },
+
+    {
+      "name": "Adjectives",
+      "items:" [
+        ["Tall", "Soong"],
+        ["Short", "Dteeyah"]
       ]
     },
 
@@ -133,6 +165,16 @@ SB.Data = {
         ["Eight", "Bpad"],
         ["Nine", "Gao"],
         ["Ten", "Sihp"]
+      ]
+    },
+
+    {
+      "name": "Body Parts",
+      "items": [
+        ["Eye", "Dtaa"],
+        ["Ear", "Huu"],
+        ["Leg", "Khaa"],
+        ["Arm", "Can"]
       ]
     }
   ]
