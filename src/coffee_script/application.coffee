@@ -89,7 +89,7 @@ $ ->
         @authenticateUser()
         return
 
-      url = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full?access_token='+@credentials.access_token
+      url = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full?access_token='+@credentials.access_token+'&alt=json-in-script'
 
       $.ajax {
         url: url

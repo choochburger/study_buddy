@@ -99,7 +99,7 @@
           this.authenticateUser();
           return;
         }
-        url = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full?access_token=' + this.credentials.access_token;
+        url = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full?access_token=' + this.credentials.access_token + '&alt=json-in-script';
         return $.ajax({
           url: url,
           dataType: 'jsonp',
