@@ -104,11 +104,10 @@ $ ->
       responseType   = 'response_type=token'
       clientId       = 'client_id=483114445763.apps.googleusercontent.com'
       redirectUri    = 'redirect_uri=http://localhost:8888'
-      scope          = 'scope=' + encodeURIComponent 'https://docs.google.com/feeds/ https://docs.googleusercontent.com/ https://spreadsheets.google.com/feeds/'
+      scope          = 'scope=https://docs.google.com/feeds/%20https://docs.googleusercontent.com/%20https://spreadsheets.google.com/feeds/'
 
       parameters = "#{responseType}&#{clientId}&#{redirectUri}&#{scope}"
       fullUrl = "#{baseUrl}?#{parameters}"
-      alert(fullUrl)
 
       window.location = fullUrl
 
