@@ -76,7 +76,7 @@
 <script id='spreadsheet-list-template' type='text/x-handlebars-template'>
   {{#each this}}
   <li>
-    <a href='#main'>{{title/$t}}</a>
+    <a remote-url='{{firstHref link}}'>{{title/$t}}</a>
   </li>
   {{/each}}
 </script>

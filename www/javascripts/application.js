@@ -119,12 +119,32 @@
         });
       },
       renderSpreadsheetList: function(spreadsheets) {
-        var $container, html;
-        console.log(spreadsheets);
+        var $container, html,
+          _this = this;
         $container = $('#spreadsheet-list ul#spreadsheets');
         html = SB.Templates.spreadsheets(spreadsheets);
         $(html).appendTo($container);
-        return $container.listview('refresh');
+        $container.listview('refresh');
+        return $container.find('a').click(function(e) {
+          var accessToken, alt, baseUrl, url;
+          baseUrl = $(e.currentTarget).attr('remote-url');
+          accessToken = "access_token=" + _this.credentials.access_token;
+          alt = 'alt=json-in-script';
+          url = "" + baseUrl + "?" + accessToken + "&" + alt;
+          $.mobile.showPageLoadingMsg();
+          return $.ajax({
+            url: url,
+            dataType: 'jsonp',
+            success: function(data) {
+              $.mobile.hidePageLoadingMsg();
+              return console.log(data);
+            },
+            error: function() {
+              $.mobile.hidePageLoadingMsg();
+              return alert('Problem fetching data.');
+            }
+          });
+        });
       },
       authenticateUser: function() {
         var baseUrl, clientId, fullUrl, parameters, redirectUri, responseType, scope;
@@ -144,6 +164,10 @@
       spreadsheets: Handlebars.compile($('#spreadsheet-list-template').html())
     };
     return SB.App.init();
+  });
+
+  Handlebars.registerHelper('firstHref', function(data) {
+    return data[0]['href'];
   });
 
   Array.prototype.shuffle = function() {

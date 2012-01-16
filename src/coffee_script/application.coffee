@@ -107,12 +107,29 @@ $ ->
       }
 
     renderSpreadsheetList: (spreadsheets) ->
-      console.log spreadsheets
-
       $container = $('#spreadsheet-list ul#spreadsheets')
       html = SB.Templates.spreadsheets(spreadsheets)
       $(html).appendTo($container)
       $container.listview('refresh')
+      $container.find('a').click (e) =>
+        # TODO: abstract this. duplicated
+        baseUrl = $(e.currentTarget).attr('remote-url')
+        accessToken = "access_token=#{@credentials.access_token}"
+        alt     = 'alt=json-in-script'
+        url     = "#{baseUrl}?#{accessToken}&#{alt}"
+
+        # TODO: abstract this, too
+        $.mobile.showPageLoadingMsg()
+        $.ajax {
+          url: url
+          dataType: 'jsonp'
+          success: (data) =>
+            $.mobile.hidePageLoadingMsg()
+            console.log data
+          error: ->
+            $.mobile.hidePageLoadingMsg()
+            alert 'Problem fetching data.'
+        }
 
     authenticateUser: ->
       baseUrl        = 'https://accounts.google.com/o/oauth2/auth'
@@ -133,6 +150,10 @@ $ ->
 
   # kick this shit off
   SB.App.init()
+
+# Handlebars helpers
+Handlebars.registerHelper 'firstHref', (data) ->
+  return data[0]['href']
 
 # sort method ripped from coffeescriptcookbook.com
 Array::shuffle = -> @sort -> 0.5 - Math.random()
