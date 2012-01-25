@@ -182,6 +182,8 @@ $ ->
           items: items
         }
 
+      # TODO: save to local storage
+
     authenticateUser: ->
       baseUrl        = 'https://accounts.google.com/o/oauth2/auth'
       responseType   = 'response_type=token'
