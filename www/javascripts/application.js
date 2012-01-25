@@ -175,6 +175,10 @@
                 return;
               }
             }
+          },
+          error: function() {
+            $.mobile.hidePageLoadingMsg();
+            return alert('Problem fetching cells from spreadsheet.');
           }
         });
       },

@@ -158,8 +158,9 @@ $ ->
               console.log error
               alert('Error in spreadsheet. Make sure it has only 2 columns: Question & Answer.')
               return
-
-          return
+        error: ->
+          $.mobile.hidePageLoadingMsg()
+          alert 'Problem fetching cells from spreadsheet.'
       }
 
     authenticateUser: ->
