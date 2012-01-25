@@ -23,7 +23,6 @@ $ ->
 
     onPageChange: (e, data) =>
       switch location.hash
-        when '#/' then SB.App.addCategories()
         when '#quiz' then SB.App.startQuiz()
         when '#spreadsheet-list' then SB.App.loadSpreadsheets()
 
@@ -161,6 +160,7 @@ $ ->
 
           @addToCategory data.feed.title.$t, items
           $.mobile.changePage($('#main'))
+          SB.App.addCategories()
 
         error: ->
           $.mobile.hidePageLoadingMsg()
@@ -177,10 +177,12 @@ $ ->
           categoryExists = true
 
       if not categoryExists
-        SB.Data.categories.push {
+        newCategory = {
           name: name
           items: items
         }
+
+        SB.Data.categories.push newCategory
 
       # TODO: save to local storage
 

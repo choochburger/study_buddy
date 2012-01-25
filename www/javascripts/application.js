@@ -23,8 +23,6 @@
       },
       onPageChange: function(e, data) {
         switch (location.hash) {
-          case '#/':
-            return SB.App.addCategories();
           case '#quiz':
             return SB.App.startQuiz();
           case '#spreadsheet-list':
@@ -176,7 +174,8 @@
               }
             }
             _this.addToCategory(data.feed.title.$t, items);
-            return $.mobile.changePage($('#main'));
+            $.mobile.changePage($('#main'));
+            return SB.App.addCategories();
           },
           error: function() {
             $.mobile.hidePageLoadingMsg();
@@ -185,7 +184,7 @@
         });
       },
       addToCategory: function(name, items) {
-        var category, categoryExists, _i, _len, _ref;
+        var category, categoryExists, newCategory, _i, _len, _ref;
         categoryExists = false;
         _ref = SB.Data.categories;
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -196,10 +195,11 @@
           }
         }
         if (!categoryExists) {
-          return SB.Data.categories.push({
+          newCategory = {
             name: name,
             items: items
-          });
+          };
+          return SB.Data.categories.push(newCategory);
         }
       },
       authenticateUser: function() {
