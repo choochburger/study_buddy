@@ -23,6 +23,7 @@ $ ->
 
     onPageChange: (e, data) =>
       switch location.hash
+        when '#/' then SB.App.addCategories()
         when '#quiz' then SB.App.startQuiz()
         when '#spreadsheet-list' then SB.App.loadSpreadsheets()
 
@@ -32,6 +33,7 @@ $ ->
         category['index'] = index
 
       $container = $('#main #categories')
+      $container.empty()
       html = SB.Templates.categories(SB.Data.categories)
       $(html).appendTo($container)
       $('#main').trigger('create')
@@ -123,8 +125,8 @@ $ ->
       alt     = 'alt=json-in-script'
       url     = "#{remoteUrl}?#{accessToken}&#{alt}"
 
-      # TODO: abstract this, too
       $.mobile.showPageLoadingMsg()
+      # TODO: load all sheets in spreadsheet
       $.ajax {
         url: url
         dataType: 'jsonp'
@@ -138,30 +140,47 @@ $ ->
           alert 'Problem fetching data.'
       }
 
-    loadCells: (url) =>
+    loadCells: (url) ->
       $.ajax {
         url: url
         dataType: 'jsonp'
         success: (data) =>
           $.mobile.hidePageLoadingMsg()
 
-          questions = []
+          items = []
           entries = data.feed.entry
+
           for i in [0..entries.length-1] by 2
             try
-              question = {
-                question: entries[i].content.$t
-                answer:   entries[i+1].content.$t
-              }
-              questions.push question
+              # TODO: get this into a better format -- question/answer, etc
+              items.push [entries[i].content.$t, entries[i+1].content.$t]
             catch error
               console.log error
               alert('Error in spreadsheet. Make sure it has only 2 columns: Question & Answer.')
               return
+
+          @addToCategory data.feed.title.$t, items
+          $.mobile.changePage($('#main'))
+
         error: ->
           $.mobile.hidePageLoadingMsg()
           alert 'Problem fetching cells from spreadsheet.'
       }
+
+    addToCategory: (name, items) ->
+      # append to existing category or create new
+      categoryExists = false
+
+      for category in SB.Data.categories
+        if category.name is name
+          category.items = category.items.concat(items)
+          categoryExists = true
+
+      if not categoryExists
+        SB.Data.categories.push {
+          name: name
+          items: items
+        }
 
     authenticateUser: ->
       baseUrl        = 'https://accounts.google.com/o/oauth2/auth'

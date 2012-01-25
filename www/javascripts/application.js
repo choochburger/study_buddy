@@ -23,6 +23,8 @@
       },
       onPageChange: function(e, data) {
         switch (location.hash) {
+          case '#/':
+            return SB.App.addCategories();
           case '#quiz':
             return SB.App.startQuiz();
           case '#spreadsheet-list':
@@ -37,6 +39,7 @@
           category['index'] = index;
         }
         $container = $('#main #categories');
+        $container.empty();
         html = SB.Templates.categories(SB.Data.categories);
         $(html).appendTo($container);
         return $('#main').trigger('create');
@@ -154,33 +157,50 @@
         });
       },
       loadCells: function(url) {
+        var _this = this;
         return $.ajax({
           url: url,
           dataType: 'jsonp',
           success: function(data) {
-            var entries, i, question, questions, _ref;
+            var entries, i, items, _ref;
             $.mobile.hidePageLoadingMsg();
-            questions = [];
+            items = [];
             entries = data.feed.entry;
             for (i = 0, _ref = entries.length - 1; i <= _ref; i += 2) {
               try {
-                question = {
-                  question: entries[i].content.$t,
-                  answer: entries[i + 1].content.$t
-                };
-                questions.push(question);
+                items.push([entries[i].content.$t, entries[i + 1].content.$t]);
               } catch (error) {
                 console.log(error);
                 alert('Error in spreadsheet. Make sure it has only 2 columns: Question & Answer.');
                 return;
               }
             }
+            _this.addToCategory(data.feed.title.$t, items);
+            return $.mobile.changePage($('#main'));
           },
           error: function() {
             $.mobile.hidePageLoadingMsg();
             return alert('Problem fetching cells from spreadsheet.');
           }
         });
+      },
+      addToCategory: function(name, items) {
+        var category, categoryExists, _i, _len, _ref;
+        categoryExists = false;
+        _ref = SB.Data.categories;
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          category = _ref[_i];
+          if (category.name === name) {
+            category.items = category.items.concat(items);
+            categoryExists = true;
+          }
+        }
+        if (!categoryExists) {
+          return SB.Data.categories.push({
+            name: name,
+            items: items
+          });
+        }
       },
       authenticateUser: function() {
         var baseUrl, clientId, fullUrl, parameters, redirectUri, responseType, scope;
