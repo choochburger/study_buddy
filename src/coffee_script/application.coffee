@@ -80,6 +80,8 @@ $ ->
         index = 0 if index is bank.length
         @nextQuestion bank, index
 
+      return
+
     quizComplete: ->
       alert 'Nice job!'
       $.mobile.changePage($('#main'))
@@ -112,24 +114,53 @@ $ ->
       $(html).appendTo($container)
       $container.listview('refresh')
       $container.find('a').click (e) =>
-        # TODO: abstract this. duplicated
-        baseUrl = $(e.currentTarget).attr('remote-url')
-        accessToken = "access_token=#{@credentials.access_token}"
-        alt     = 'alt=json-in-script'
-        url     = "#{baseUrl}?#{accessToken}&#{alt}"
+        remoteUrl = $(e.currentTarget).attr('remote-url')
+        @loadSpreadsheet remoteUrl
 
-        # TODO: abstract this, too
-        $.mobile.showPageLoadingMsg()
-        $.ajax {
-          url: url
-          dataType: 'jsonp'
-          success: (data) =>
-            $.mobile.hidePageLoadingMsg()
-            console.log data
-          error: ->
-            $.mobile.hidePageLoadingMsg()
-            alert 'Problem fetching data.'
-        }
+    loadSpreadsheet: (remoteUrl) ->
+      # TODO: abstract this. duplicated
+      accessToken = "access_token=#{@credentials.access_token}"
+      alt     = 'alt=json-in-script'
+      url     = "#{remoteUrl}?#{accessToken}&#{alt}"
+
+      # TODO: abstract this, too
+      $.mobile.showPageLoadingMsg()
+      $.ajax {
+        url: url
+        dataType: 'jsonp'
+        success: (data) =>
+          baseUrl = data.feed.entry[0].link[1].href
+          url     = "#{baseUrl}?#{accessToken}&#{alt}"
+
+          @loadCells url
+        error: ->
+          $.mobile.hidePageLoadingMsg()
+          alert 'Problem fetching data.'
+      }
+
+    loadCells: (url) =>
+      $.ajax {
+        url: url
+        dataType: 'jsonp'
+        success: (data) =>
+          $.mobile.hidePageLoadingMsg()
+
+          questions = []
+          entries = data.feed.entry
+          for i in [0..entries.length-1] by 2
+            try
+              question = {
+                question: entries[i].content.$t
+                answer:   entries[i+1].content.$t
+              }
+              questions.push question
+            catch error
+              console.log error
+              alert('Error in spreadsheet. Make sure it has only 2 columns: Question & Answer.')
+              return
+
+          return
+      }
 
     authenticateUser: ->
       baseUrl        = 'https://accounts.google.com/o/oauth2/auth'
@@ -152,8 +183,8 @@ $ ->
   SB.App.init()
 
 # Handlebars helpers
-Handlebars.registerHelper 'firstHref', (data) ->
-  return data[0]['href']
+Handlebars.registerHelper 'first', (context, options) ->
+  context[0][options.hash.attr] or= context[0]
 
 # sort method ripped from coffeescriptcookbook.com
 Array::shuffle = -> @sort -> 0.5 - Math.random()

@@ -80,5 +80,5 @@
 %script#spreadsheet-list-template{:type => "text/x-handlebars-template"}
   {{#each this}}
   %li
-    %a{"remote-url" => "{{firstHref link}}"} {{title/$t}}
+    %a{"remote-url" => "{{first link attr=\"href\"}}"} {{title/$t}}
   {{/each}}

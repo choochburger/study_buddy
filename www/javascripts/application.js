@@ -83,7 +83,7 @@
             return _this.nextQuestion(bank, index);
           }
         });
-        return $('#quiz #next-question-btn').click(function(e) {
+        $('#quiz #next-question-btn').click(function(e) {
           index++;
           if (index === bank.length) index = 0;
           return _this.nextQuestion(bank, index);
@@ -126,24 +126,56 @@
         $(html).appendTo($container);
         $container.listview('refresh');
         return $container.find('a').click(function(e) {
-          var accessToken, alt, baseUrl, url;
-          baseUrl = $(e.currentTarget).attr('remote-url');
-          accessToken = "access_token=" + _this.credentials.access_token;
-          alt = 'alt=json-in-script';
-          url = "" + baseUrl + "?" + accessToken + "&" + alt;
-          $.mobile.showPageLoadingMsg();
-          return $.ajax({
-            url: url,
-            dataType: 'jsonp',
-            success: function(data) {
-              $.mobile.hidePageLoadingMsg();
-              return console.log(data);
-            },
-            error: function() {
-              $.mobile.hidePageLoadingMsg();
-              return alert('Problem fetching data.');
+          var remoteUrl;
+          remoteUrl = $(e.currentTarget).attr('remote-url');
+          return _this.loadSpreadsheet(remoteUrl);
+        });
+      },
+      loadSpreadsheet: function(remoteUrl) {
+        var accessToken, alt, url,
+          _this = this;
+        accessToken = "access_token=" + this.credentials.access_token;
+        alt = 'alt=json-in-script';
+        url = "" + remoteUrl + "?" + accessToken + "&" + alt;
+        $.mobile.showPageLoadingMsg();
+        return $.ajax({
+          url: url,
+          dataType: 'jsonp',
+          success: function(data) {
+            var baseUrl;
+            baseUrl = data.feed.entry[0].link[1].href;
+            url = "" + baseUrl + "?" + accessToken + "&" + alt;
+            return _this.loadCells(url);
+          },
+          error: function() {
+            $.mobile.hidePageLoadingMsg();
+            return alert('Problem fetching data.');
+          }
+        });
+      },
+      loadCells: function(url) {
+        return $.ajax({
+          url: url,
+          dataType: 'jsonp',
+          success: function(data) {
+            var entries, i, question, questions, _ref;
+            $.mobile.hidePageLoadingMsg();
+            questions = [];
+            entries = data.feed.entry;
+            for (i = 0, _ref = entries.length - 1; i <= _ref; i += 2) {
+              try {
+                question = {
+                  question: entries[i].content.$t,
+                  answer: entries[i + 1].content.$t
+                };
+                questions.push(question);
+              } catch (error) {
+                console.log(error);
+                alert('Error in spreadsheet. Make sure it has only 2 columns: Question & Answer.');
+                return;
+              }
             }
-          });
+          }
         });
       },
       authenticateUser: function() {
@@ -166,8 +198,9 @@
     return SB.App.init();
   });
 
-  Handlebars.registerHelper('firstHref', function(data) {
-    return data[0]['href'];
+  Handlebars.registerHelper('first', function(context, options) {
+    var _base, _name;
+    return (_base = context[0])[_name = options.hash.attr] || (_base[_name] = context[0]);
   });
 
   Array.prototype.shuffle = function() {
