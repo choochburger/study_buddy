@@ -1,8 +1,22 @@
+SB = {}
+
 $ ->
+
+  SB.Data = {
+    categories: JSON.parse(localStorage.categories)
+  }
+
+  SB.Credentials = {}
+
   SB.App =
     init: ->
       @checkHashForAuth()
-      @addCategories()
+
+      if SB.Data.categories
+        @addCategories()
+      else
+        SB.Data.categories = []
+        @loadSpreadsheets()
 
       # listen for page loads and act as router
       $(document).bind 'pagechange', @onPageChange
@@ -12,11 +26,11 @@ $ ->
 
       params = location.hash.split('&')
       params[0] = params[0].split('#')[1]
-      @credentials = {}
+      SB.Credentials = {}
 
       for param in params
         param = param.split('=')
-        @credentials[param[0]] = param[1]
+        SB.Credentials[param[0]] = param[1]
 
       $.mobile.changePage($('#spreadsheet-list'))
 
@@ -88,12 +102,12 @@ $ ->
       $.mobile.changePage($('#main'))
 
     loadSpreadsheets: ->
-      if not @credentials
+      if not SB.Credentials.access_token
         @authenticateUser()
         return
 
       baseUrl = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full'
-      accessToken = "access_token=#{@credentials.access_token}"
+      accessToken = "access_token=#{SB.Credentials.access_token}"
       alt     = 'alt=json-in-script'
       url     = "#{baseUrl}?#{accessToken}&#{alt}"
 
@@ -120,7 +134,7 @@ $ ->
 
     loadSpreadsheet: (remoteUrl) ->
       # TODO: abstract this. duplicated
-      accessToken = "access_token=#{@credentials.access_token}"
+      accessToken = "access_token=#{SB.Credentials.access_token}"
       alt     = 'alt=json-in-script'
       url     = "#{remoteUrl}?#{accessToken}&#{alt}"
 
@@ -183,6 +197,7 @@ $ ->
         }
 
         SB.Data.categories.push newCategory
+        localStorage.setItem 'categories', JSON.stringify(SB.Data.categories)
 
       # TODO: save to local storage
 

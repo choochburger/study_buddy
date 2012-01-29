@@ -1,11 +1,23 @@
 (function() {
+  var SB;
+
+  SB = {};
 
   $(function() {
     var _this = this;
+    SB.Data = {
+      categories: JSON.parse(localStorage.categories)
+    };
+    SB.Credentials = {};
     SB.App = {
       init: function() {
         this.checkHashForAuth();
-        this.addCategories();
+        if (SB.Data.categories) {
+          this.addCategories();
+        } else {
+          SB.Data.categories = [];
+          this.loadSpreadsheets();
+        }
         return $(document).bind('pagechange', this.onPageChange);
       },
       checkHashForAuth: function() {
@@ -13,11 +25,11 @@
         if (location.hash.indexOf('access_token') === -1) return;
         params = location.hash.split('&');
         params[0] = params[0].split('#')[1];
-        this.credentials = {};
+        SB.Credentials = {};
         for (_i = 0, _len = params.length; _i < _len; _i++) {
           param = params[_i];
           param = param.split('=');
-          this.credentials[param[0]] = param[1];
+          SB.Credentials[param[0]] = param[1];
         }
         return $.mobile.changePage($('#spreadsheet-list'));
       },
@@ -97,12 +109,12 @@
       loadSpreadsheets: function() {
         var accessToken, alt, baseUrl, url,
           _this = this;
-        if (!this.credentials) {
+        if (!SB.Credentials.access_token) {
           this.authenticateUser();
           return;
         }
         baseUrl = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full';
-        accessToken = "access_token=" + this.credentials.access_token;
+        accessToken = "access_token=" + SB.Credentials.access_token;
         alt = 'alt=json-in-script';
         url = "" + baseUrl + "?" + accessToken + "&" + alt;
         $.mobile.showPageLoadingMsg();
@@ -135,7 +147,7 @@
       loadSpreadsheet: function(remoteUrl) {
         var accessToken, alt, url,
           _this = this;
-        accessToken = "access_token=" + this.credentials.access_token;
+        accessToken = "access_token=" + SB.Credentials.access_token;
         alt = 'alt=json-in-script';
         url = "" + remoteUrl + "?" + accessToken + "&" + alt;
         $.mobile.showPageLoadingMsg();
@@ -199,7 +211,8 @@
             name: name,
             items: items
           };
-          return SB.Data.categories.push(newCategory);
+          SB.Data.categories.push(newCategory);
+          return localStorage.setItem('categories', JSON.stringify(SB.Data.categories));
         }
       },
       authenticateUser: function() {
