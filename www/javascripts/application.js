@@ -155,10 +155,16 @@
           url: url,
           dataType: 'jsonp',
           success: function(data) {
-            var baseUrl;
-            baseUrl = data.feed.entry[0].link[1].href;
-            url = "" + baseUrl + "?" + accessToken + "&" + alt;
-            return _this.loadCells(url);
+            var baseUrl, entry, _i, _len, _ref, _results;
+            _ref = data.feed.entry;
+            _results = [];
+            for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+              entry = _ref[_i];
+              baseUrl = entry.link[1].href;
+              url = "" + baseUrl + "?" + accessToken + "&" + alt;
+              _results.push(_this.loadCells(url));
+            }
+            return _results;
           },
           error: function() {
             $.mobile.hidePageLoadingMsg();

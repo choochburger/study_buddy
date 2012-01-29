@@ -139,15 +139,14 @@ $ ->
       url     = "#{remoteUrl}?#{accessToken}&#{alt}"
 
       $.mobile.showPageLoadingMsg()
-      # TODO: load all sheets in spreadsheet
       $.ajax {
         url: url
         dataType: 'jsonp'
         success: (data) =>
-          baseUrl = data.feed.entry[0].link[1].href
-          url     = "#{baseUrl}?#{accessToken}&#{alt}"
-
-          @loadCells url
+          for entry in data.feed.entry
+            baseUrl = entry.link[1].href
+            url     = "#{baseUrl}?#{accessToken}&#{alt}"
+            @loadCells url
         error: ->
           $.mobile.hidePageLoadingMsg()
           alert 'Problem fetching data.'
