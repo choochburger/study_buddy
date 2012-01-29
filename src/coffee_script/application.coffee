@@ -2,9 +2,7 @@ SB = {}
 
 $ ->
 
-  SB.Data = {
-    categories: JSON.parse(localStorage.categories)
-  }
+  SB.Data = {}
 
   SB.Credentials = {}
 
@@ -12,7 +10,8 @@ $ ->
     init: ->
       @checkHashForAuth()
 
-      if SB.Data.categories
+      if localStorage.categories
+        SB.Data.categories = JSON.parse(localStorage.categories)
         @addCategories()
       else
         SB.Data.categories = []

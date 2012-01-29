@@ -5,14 +5,13 @@
 
   $(function() {
     var _this = this;
-    SB.Data = {
-      categories: JSON.parse(localStorage.categories)
-    };
+    SB.Data = {};
     SB.Credentials = {};
     SB.App = {
       init: function() {
         this.checkHashForAuth();
-        if (SB.Data.categories) {
+        if (localStorage.categories) {
+          SB.Data.categories = JSON.parse(localStorage.categories);
           this.addCategories();
         } else {
           SB.Data.categories = [];
