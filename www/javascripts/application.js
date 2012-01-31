@@ -202,24 +202,21 @@
         });
       },
       addToCategory: function(name, items) {
-        var category, categoryExists, newCategory, _i, _len, _ref;
-        categoryExists = false;
+        var category, i, newCategory, _len, _ref;
         _ref = SB.Data.categories;
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          category = _ref[_i];
+        for (i = 0, _len = _ref.length; i < _len; i++) {
+          category = _ref[i];
           if (category.name === name) {
-            category.items = category.items.concat(items);
-            categoryExists = true;
+            SB.Data.categories.remove(i, i);
+            break;
           }
         }
-        if (!categoryExists) {
-          newCategory = {
-            name: name,
-            items: items
-          };
-          SB.Data.categories.push(newCategory);
-          return localStorage.setItem('categories', JSON.stringify(SB.Data.categories));
-        }
+        newCategory = {
+          name: name,
+          items: items
+        };
+        SB.Data.categories.push(newCategory);
+        return localStorage.setItem('categories', JSON.stringify(SB.Data.categories));
       },
       authenticateUser: function() {
         var baseUrl, clientId, fullUrl, parameters, redirectUri, responseType, scope;

@@ -183,24 +183,18 @@ $ ->
       }
 
     addToCategory: (name, items) ->
-      # append to existing category or create new
-      categoryExists = false
-
-      for category in SB.Data.categories
+      for category, i in SB.Data.categories
         if category.name is name
-          category.items = category.items.concat(items)
-          categoryExists = true
+          SB.Data.categories.remove i, i
+          break;
 
-      if not categoryExists
-        newCategory = {
-          name: name
-          items: items
-        }
+      newCategory = {
+        name: name
+        items: items
+      }
 
-        SB.Data.categories.push newCategory
-        localStorage.setItem 'categories', JSON.stringify(SB.Data.categories)
-
-      # TODO: save to local storage
+      SB.Data.categories.push newCategory
+      localStorage.setItem 'categories', JSON.stringify(SB.Data.categories)
 
     authenticateUser: ->
       baseUrl        = 'https://accounts.google.com/o/oauth2/auth'
