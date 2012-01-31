@@ -135,6 +135,7 @@
         var $container, html,
           _this = this;
         $container = $('#spreadsheet-list ul#spreadsheets');
+        $container.empty();
         html = SB.Templates.spreadsheets(spreadsheets);
         $(html).appendTo($container);
         $container.listview('refresh');
