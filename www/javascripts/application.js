@@ -17,7 +17,8 @@
           SB.Data.categories = [];
           this.loadSpreadsheets();
         }
-        return $(document).bind('pagechange', this.onPageChange);
+        $(document).bind('pagechange', this.onPageChange);
+        return $('body').css('visibility', 'visible');
       },
       checkHashForAuth: function() {
         var param, params, _i, _len;

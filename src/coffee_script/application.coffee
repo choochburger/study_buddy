@@ -20,6 +20,9 @@ $ ->
       # listen for page loads and act as router
       $(document).bind 'pagechange', @onPageChange
 
+      # page isn't always visible for some reason...
+      $('body').css('visibility', 'visible')
+
     checkHashForAuth: ->
       return if location.hash.indexOf('access_token') is -1
 
