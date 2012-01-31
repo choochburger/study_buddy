@@ -1,7 +1,6 @@
 (function() {
-  var SB;
 
-  SB = {};
+  window.SB = window.SB || {};
 
   $(function() {
     var _this = this;
@@ -224,7 +223,7 @@
         baseUrl = 'https://accounts.google.com/o/oauth2/auth';
         responseType = 'response_type=token';
         clientId = 'client_id=483114445763.apps.googleusercontent.com';
-        redirectUri = 'redirect_uri=http://localhost:8888';
+        redirectUri = 'redirect_uri=' + SB.Env.redirectUri;
         scope = 'scope=https://docs.google.com/feeds/%20https://docs.googleusercontent.com/%20https://spreadsheets.google.com/feeds/';
         parameters = "" + responseType + "&" + clientId + "&" + redirectUri + "&" + scope;
         fullUrl = "" + baseUrl + "?" + parameters;
