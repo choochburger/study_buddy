@@ -59,10 +59,17 @@ $ ->
       $(html).appendTo($container)
       $('#main').trigger('create')
 
+      $('#main #start-quiz-btn').click =>
+        selected = $('#main #categories input:checked')
+        return alert 'Please select some categories below.' if not selected.length
+
+        $.mobile.changePage($('#quiz'))
+
     startQuiz: ->
       # assemble a bank of questions based on user selection
       bank = []
       selected = $('#main #categories input:checked')
+
       for inputEl in selected
         index = $(inputEl).attr('index')
         category = SB.Data.categories[index]

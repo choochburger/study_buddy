@@ -47,7 +47,8 @@
         }
       },
       addCategories: function() {
-        var $container, category, html, index, _ref;
+        var $container, category, html, index, _ref,
+          _this = this;
         _ref = SB.Data.categories;
         for (index in _ref) {
           category = _ref[index];
@@ -57,7 +58,15 @@
         $container.empty();
         html = SB.Templates.categories(SB.Data.categories);
         $(html).appendTo($container);
-        return $('#main').trigger('create');
+        $('#main').trigger('create');
+        return $('#main #start-quiz-btn').click(function() {
+          var selected;
+          selected = $('#main #categories input:checked');
+          if (!selected.length) {
+            return alert('Please select some categories below.');
+          }
+          return $.mobile.changePage($('#quiz'));
+        });
       },
       startQuiz: function() {
         var bank, category, index, inputEl, question, selected, _i, _j, _len, _len2, _ref;
