@@ -79,14 +79,10 @@ $ ->
       @nextQuestion bank, 0
 
     nextQuestion: (bank, index) ->
-      # TODO: get rid of indexes and use named properties. keeping it this
-      #       way for now b/c i'm manually entering data for testing
-      context =
-        question: bank[index][0]
-        answer:   bank[index][1]
       $contentEl = $('#quiz #content')
       $contentEl.empty()
 
+      context = bank[index]
       html = SB.Templates.question(context)
       $question = $(html).appendTo($contentEl)
 
@@ -188,8 +184,10 @@ $ ->
 
           for i in [0..entries.length-1] by 2
             try
-              # TODO: get this into a better format -- question/answer, etc
-              items.push [entries[i].content.$t, entries[i+1].content.$t]
+              items.push {
+                'question': entries[i].content.$t
+                'answer'  : entries[i+1].content.$t
+              }
             catch error
               console.log error
               alert('Error in spreadsheet. Make sure it has only 2 columns: Question & Answer.')

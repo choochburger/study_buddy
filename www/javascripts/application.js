@@ -87,12 +87,9 @@
       nextQuestion: function(bank, index) {
         var $btnsContainer, $contentEl, $gotItBtn, $nextQuestionBtn, $question, $shuffleBtn, btns, context, html,
           _this = this;
-        context = {
-          question: bank[index][0],
-          answer: bank[index][1]
-        };
         $contentEl = $('#quiz #content');
         $contentEl.empty();
+        context = bank[index];
         html = SB.Templates.question(context);
         $question = $(html).appendTo($contentEl);
         $('#quiz #question-count').text(bank.length + ' remaining');
@@ -205,7 +202,10 @@
             entries = data.feed.entry;
             for (i = 0, _ref = entries.length - 1; i <= _ref; i += 2) {
               try {
-                items.push([entries[i].content.$t, entries[i + 1].content.$t]);
+                items.push({
+                  'question': entries[i].content.$t,
+                  'answer': entries[i + 1].content.$t
+                });
               } catch (error) {
                 console.log(error);
                 alert('Error in spreadsheet. Make sure it has only 2 columns: Question & Answer.');
