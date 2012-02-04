@@ -1,1 +1,3 @@
-Forcetype text/cache-manifest .appcache
+<Files *.appcache>
+  ForceType text/cache-manifest
+</Files>
