@@ -10,12 +10,8 @@ $ ->
     init: ->
       @checkHashForAuth()
 
-      if localStorage.categories
-        SB.Data.categories = JSON.parse(localStorage.categories)
-        @addCategories()
-      else
-        SB.Data.categories = []
-        @loadSpreadsheets()
+      SB.Data.categories = @initData()
+      @startApp(SB.Data.categories)
 
       # listen for page loads and act as router
       $(document).bind 'pagechange', @onPageChange
@@ -36,6 +32,16 @@ $ ->
 
       $.mobile.changePage($('#spreadsheet-list'))
 
+    initData: ->
+      return JSON.parse(localStorage.categories) if localStorage.categories
+      SB.Data.categories = []
+
+    startApp: ->
+      # if no data is found, direct user to spreadsheet selection
+      if (SB.Data.categories.length)
+        @addCategories
+      else
+        @loadSpreadsheets()
 
     onPageChange: (e, data) =>
       switch location.hash

@@ -9,13 +9,8 @@
     SB.App = {
       init: function() {
         this.checkHashForAuth();
-        if (localStorage.categories) {
-          SB.Data.categories = JSON.parse(localStorage.categories);
-          this.addCategories();
-        } else {
-          SB.Data.categories = [];
-          this.loadSpreadsheets();
-        }
+        SB.Data.categories = this.initData();
+        this.startApp(SB.Data.categories);
         $(document).bind('pagechange', this.onPageChange);
         return $('body').css('visibility', 'visible');
       },
@@ -31,6 +26,17 @@
           SB.Credentials[param[0]] = param[1];
         }
         return $.mobile.changePage($('#spreadsheet-list'));
+      },
+      initData: function() {
+        if (localStorage.categories) return JSON.parse(localStorage.categories);
+        return SB.Data.categories = [];
+      },
+      startApp: function() {
+        if (SB.Data.categories.length) {
+          return this.addCategories;
+        } else {
+          return this.loadSpreadsheets();
+        }
       },
       onPageChange: function(e, data) {
         switch (location.hash) {
