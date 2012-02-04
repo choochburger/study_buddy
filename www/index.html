@@ -15,12 +15,12 @@
 <div data-role='page' id='main'>
   <div data-role='header'>
     <h4>Categories</h4>
+    <a data-role='button' data-theme='b' href='#quiz' id='begin-quiz'>
+      Begin
+    </a>
   </div>
   <div data-role='controlgroup' id='categories'></div>
   <div data-position='fixed' data-role='footer'>
-    <a data-role='button' href='#quiz' id='begin-quiz'>
-      Begin
-    </a>
     <a data-role='button' href='#spreadsheet-list' id='load-spreadsheets'>
       Load Data
     </a>
@@ -36,17 +36,6 @@
     </h4>
   </div>
   <div id='content'></div>
-  <div data-position='fixed' data-role='footer'>
-    <a data-icon='refresh' data-role='button' id='shuffle-btn'>
-      Shuffle
-    </a>
-    <a data-icon='check' data-role='button' id='got-it-btn'>
-      Got It!
-    </a>
-    <a data-icon='arrow-r' data-role='button' id='next-question-btn'>
-      Next Question
-    </a>
-  </div>
 </div>
 <!-- end quiz -->
 <!-- data loading page -->
@@ -67,9 +56,20 @@
   {{/each}}
 </script>
 <script id='question-template' type='text/x-handlebars-template'>
-  <div data-role='collapsible'>
+  <div data-content-theme='c' data-role='collapsible'>
     <h3 class='question'>{{question}}</h3>
-    <p class='answer'>{{answer}}</p>
+    <h3 class='answer'>{{answer}}</h3>
+    <div data-role='controlgroup' id='buttons'>
+      <a data-icon='arrow-r' data-role='button' id='next-question-btn'>
+        Next
+      </a>
+      <a data-icon='check' data-role='button' id='got-it-btn'>
+        Got It!
+      </a>
+      <a data-icon='refresh' data-role='button' id='shuffle-btn'>
+        Shuffle
+      </a>
+    </div>
   </div>
 </script>
 <script id='spreadsheet-list-template' type='text/x-handlebars-template'>

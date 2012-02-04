@@ -16,14 +16,15 @@
 #main{"data-role" => "page"}
   %div{"data-role" => "header"}
     %h4 Categories
+    %a#begin-quiz{"data-role" => "button",
+                  "data-theme" => "b",
+                  :href => "#quiz"}
+      Begin
 
   #categories{"data-role" => "controlgroup"}
 
   %div{"data-position" => "fixed",
        "data-role" => "footer"}
-    %a#begin-quiz{"data-role" => "button",
-                  :href => "#quiz"}
-      Begin
     %a#load-spreadsheets{"data-role" => "button",
                          :href => "#spreadsheet-list"}
       Load Data
@@ -41,14 +42,6 @@
 
   #content
 
-  %div{"data-role" => "footer", "data-position" => "fixed"}
-    %a#shuffle-btn{"data-icon" => "refresh", "data-role" => "button"} 
-      Shuffle
-    %a#got-it-btn{"data-icon" => "check", "data-role" => "button"} 
-      Got It!
-    %a#next-question-btn{"data-icon" => "arrow-r", "data-role" => "button"} 
-      Next Question
-      
 / end quiz
 
 / data loading page
@@ -72,9 +65,17 @@
   {{/each}}
 
 %script#question-template{:type => "text/x-handlebars-template"}
-  %div{"data-role" => "collapsible"}
+  %div{"data-content-theme" => "c", "data-role" => "collapsible"}
     %h3.question {{question}}
-    %p.answer {{answer}}
+    %h3.answer {{answer}}
+
+    %div#buttons{"data-role" => "controlgroup"}
+      %a#next-question-btn{"data-icon" => "arrow-r", "data-role" => "button"} 
+        Next
+      %a#got-it-btn{"data-icon" => "check", "data-role" => "button"} 
+        Got It!
+      %a#shuffle-btn{"data-icon" => "refresh", "data-role" => "button"} 
+        Shuffle
 
 %script#spreadsheet-list-template{:type => "text/x-handlebars-template"}
   {{#each this}}

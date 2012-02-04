@@ -39,7 +39,7 @@ $ ->
     startApp: ->
       # if no data is found, direct user to spreadsheet selection
       if (SB.Data.categories.length)
-        @addCategories
+        @addCategories()
       else
         @loadSpreadsheets()
 
@@ -79,26 +79,34 @@ $ ->
         answer:   bank[index][1]
       $contentEl = $('#quiz #content')
       $contentEl.empty()
+
       html = SB.Templates.question(context)
-      item = $(html).appendTo($contentEl)
-      item.collapsible()
+      $question = $(html).appendTo($contentEl)
+
       $('#quiz #question-count').text(bank.length+' remaining')
 
       # TODO: refactor these into non-inline methods
       #       nextQuestion() is getting too long and varied
+      $btnsContainer   = $('#quiz #buttons')
+      $shuffleBtn      = $('#quiz #shuffle-btn')
+      $gotItBtn        = $('#quiz #got-it-btn')
+      $nextQuestionBtn = $('#quiz #next-question-btn')
+      btns             = [$shuffleBtn, $gotItBtn, $nextQuestionBtn]
 
-      # TODO: sloppy. don't need to continuosly bind/unbind things like this
-      $('#quiz #shuffle-btn, #quiz #got-it-btn, #quiz #next-question-btn').unbind('click')
+      $(btns).unbind('click')
+             .button()
+      $btnsContainer.controlgroup()
+      $question.collapsible()
 
-      $('#quiz #shuffle-btn').click (e) =>
+      $shuffleBtn.click (e) =>
         bank.shuffle()
         @nextQuestion(bank, 0)
 
-      $('#quiz #got-it-btn').click (e) =>
+      $gotItBtn.click (e) =>
         bank.remove(index)
         if bank.length is 0 then @quizComplete() else @nextQuestion bank, index
 
-      $('#quiz #next-question-btn').click (e) =>
+      $nextQuestionBtn.click (e) =>
         index++
         index = 0 if index is bank.length
         @nextQuestion bank, index
@@ -193,7 +201,7 @@ $ ->
       for category, i in SB.Data.categories
         if category.name is name
           SB.Data.categories.remove i, i
-          break;
+          break
 
       newCategory = {
         name: name

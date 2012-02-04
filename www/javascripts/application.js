@@ -33,7 +33,7 @@
       },
       startApp: function() {
         if (SB.Data.categories.length) {
-          return this.addCategories;
+          return this.addCategories();
         } else {
           return this.loadSpreadsheets();
         }
@@ -76,7 +76,7 @@
         return this.nextQuestion(bank, 0);
       },
       nextQuestion: function(bank, index) {
-        var $contentEl, context, html, item,
+        var $btnsContainer, $contentEl, $gotItBtn, $nextQuestionBtn, $question, $shuffleBtn, btns, context, html,
           _this = this;
         context = {
           question: bank[index][0],
@@ -85,15 +85,21 @@
         $contentEl = $('#quiz #content');
         $contentEl.empty();
         html = SB.Templates.question(context);
-        item = $(html).appendTo($contentEl);
-        item.collapsible();
+        $question = $(html).appendTo($contentEl);
         $('#quiz #question-count').text(bank.length + ' remaining');
-        $('#quiz #shuffle-btn, #quiz #got-it-btn, #quiz #next-question-btn').unbind('click');
-        $('#quiz #shuffle-btn').click(function(e) {
+        $btnsContainer = $('#quiz #buttons');
+        $shuffleBtn = $('#quiz #shuffle-btn');
+        $gotItBtn = $('#quiz #got-it-btn');
+        $nextQuestionBtn = $('#quiz #next-question-btn');
+        btns = [$shuffleBtn, $gotItBtn, $nextQuestionBtn];
+        $(btns).unbind('click').button();
+        $btnsContainer.controlgroup();
+        $question.collapsible();
+        $shuffleBtn.click(function(e) {
           bank.shuffle();
           return _this.nextQuestion(bank, 0);
         });
-        $('#quiz #got-it-btn').click(function(e) {
+        $gotItBtn.click(function(e) {
           bank.remove(index);
           if (bank.length === 0) {
             return _this.quizComplete();
@@ -101,7 +107,7 @@
             return _this.nextQuestion(bank, index);
           }
         });
-        $('#quiz #next-question-btn').click(function(e) {
+        $nextQuestionBtn.click(function(e) {
           index++;
           if (index === bank.length) index = 0;
           return _this.nextQuestion(bank, index);
