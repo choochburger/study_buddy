@@ -5,7 +5,7 @@ SB.Env = (function() {
   if (url.indexOf('localhost') > -1) {
     // local dev
     return {
-      redirectUri: 'http://localhost:8888/'
+      redirectUri: 'http://localhost:8888'
     }
   } else {
     // cldn
