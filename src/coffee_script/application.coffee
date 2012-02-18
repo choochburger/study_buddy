@@ -87,8 +87,6 @@ $ ->
 
       $('#quiz #question-count').text(bank.length+' remaining')
 
-      # TODO: refactor these into non-inline methods
-      #       nextQuestion() is getting too long and varied
       $btnsContainer   = $('#quiz #buttons')
       $shuffleBtn      = $('#quiz #shuffle-btn')
       $gotItBtn        = $('#quiz #got-it-btn')
@@ -128,9 +126,7 @@ $ ->
         return
 
       baseUrl = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full'
-      accessToken = "access_token=#{SB.Credentials.access_token}"
-      alt     = 'alt=json-in-script'
-      url     = "#{baseUrl}?#{accessToken}&#{alt}"
+      url = @getFullUrl baseUrl
 
       $.mobile.showPageLoadingMsg()
       $.ajax {
@@ -144,6 +140,12 @@ $ ->
           alert 'Problem fetching data.'
       }
 
+    getFullUrl: (baseUrl) ->
+      accessToken = "access_token=#{SB.Credentials.access_token}"
+      alt         = 'alt=json-in-script'
+
+      "#{baseUrl}?#{accessToken}&#{alt}"
+
     renderSpreadsheetList: (spreadsheets) ->
       $container = $('#spreadsheet-list ul#spreadsheets')
       $container.empty()
@@ -155,10 +157,7 @@ $ ->
         @loadSpreadsheet remoteUrl
 
     loadSpreadsheet: (remoteUrl) ->
-      # TODO: abstract this. duplicated
-      accessToken = "access_token=#{SB.Credentials.access_token}"
-      alt     = 'alt=json-in-script'
-      url     = "#{remoteUrl}?#{accessToken}&#{alt}"
+      url = @getFullUrl remoteUrl
 
       $.mobile.showPageLoadingMsg()
       $.ajax {
@@ -167,7 +166,7 @@ $ ->
         success: (data) =>
           for entry in data.feed.entry
             baseUrl = entry.link[1].href
-            url     = "#{baseUrl}?#{accessToken}&#{alt}"
+            url     = @getFullUrl baseUrl
             @loadCells url
         error: ->
           $.mobile.hidePageLoadingMsg()

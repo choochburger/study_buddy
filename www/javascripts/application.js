@@ -127,16 +127,14 @@
         return $.mobile.changePage($('#main'));
       },
       loadSpreadsheets: function() {
-        var accessToken, alt, baseUrl, url,
+        var baseUrl, url,
           _this = this;
         if (!SB.Credentials.access_token) {
           this.authenticateUser();
           return;
         }
         baseUrl = 'https://spreadsheets.google.com/feeds/spreadsheets/private/full';
-        accessToken = "access_token=" + SB.Credentials.access_token;
-        alt = 'alt=json-in-script';
-        url = "" + baseUrl + "?" + accessToken + "&" + alt;
+        url = this.getFullUrl(baseUrl);
         $.mobile.showPageLoadingMsg();
         return $.ajax({
           url: url,
@@ -150,6 +148,12 @@
             return alert('Problem fetching data.');
           }
         });
+      },
+      getFullUrl: function(baseUrl) {
+        var accessToken, alt;
+        accessToken = "access_token=" + SB.Credentials.access_token;
+        alt = 'alt=json-in-script';
+        return "" + baseUrl + "?" + accessToken + "&" + alt;
       },
       renderSpreadsheetList: function(spreadsheets) {
         var $container, html,
@@ -166,11 +170,9 @@
         });
       },
       loadSpreadsheet: function(remoteUrl) {
-        var accessToken, alt, url,
+        var url,
           _this = this;
-        accessToken = "access_token=" + SB.Credentials.access_token;
-        alt = 'alt=json-in-script';
-        url = "" + remoteUrl + "?" + accessToken + "&" + alt;
+        url = this.getFullUrl(remoteUrl);
         $.mobile.showPageLoadingMsg();
         return $.ajax({
           url: url,
@@ -182,7 +184,7 @@
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               entry = _ref[_i];
               baseUrl = entry.link[1].href;
-              url = "" + baseUrl + "?" + accessToken + "&" + alt;
+              url = _this.getFullUrl(baseUrl);
               _results.push(_this.loadCells(url));
             }
             return _results;
