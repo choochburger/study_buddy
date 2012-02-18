@@ -119,8 +119,10 @@ $ ->
       return
 
     quizComplete: ->
-      alert 'Nice job!'
-      $.mobile.changePage($('#main'))
+      $.mobile.changePage('#quiz-complete', {
+        transition: 'flip'
+        role:       'dialog'
+      })
 
     loadSpreadsheets: ->
       if not SB.Credentials.access_token

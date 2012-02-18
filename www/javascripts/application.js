@@ -127,8 +127,10 @@
         });
       },
       quizComplete: function() {
-        alert('Nice job!');
-        return $.mobile.changePage($('#main'));
+        return $.mobile.changePage('#quiz-complete', {
+          transition: 'flip',
+          role: 'dialog'
+        });
       },
       loadSpreadsheets: function() {
         var baseUrl, url,

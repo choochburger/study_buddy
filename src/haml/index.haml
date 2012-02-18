@@ -52,6 +52,20 @@
 
 / end data loading page
 
+/ quiz complete page
+#quiz-complete{"data-role" => "page"}
+  %div{"data-role" => "header"}
+    %h1
+      Quiz Complete.
+  %div{"data-role" => "content"}
+    %p
+      Nice job!
+    %a{:href => "#main",
+       "data-role" => "button"}
+      Start Over?
+
+/ end quiz complete page
+
 / templates
 %script#category-list-template{:type => "text/x-handlebars-template"}
   {{#each this}}
