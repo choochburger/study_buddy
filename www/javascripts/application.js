@@ -118,6 +118,9 @@
           if (index === bank.length) index = 0;
           return _this.nextQuestion(bank, index);
         });
+        $('#quiz #back').click(function() {
+          return $.mobile.changePage($('#main'));
+        });
       },
       quizComplete: function() {
         alert('Nice job!');

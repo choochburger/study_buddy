@@ -62,8 +62,7 @@ $ ->
       $('#main #start-quiz-btn').click =>
         selected = $('#main #categories input:checked')
         return alert 'Please select some categories below.' if not selected.length
-
-        $.mobile.changePage($('#quiz'))
+        $.mobile.changePage $('#quiz')
 
     startQuiz: ->
       # assemble a bank of questions based on user selection
@@ -113,6 +112,9 @@ $ ->
         index++
         index = 0 if index is bank.length
         @nextQuestion bank, index
+
+      $('#quiz #back').click =>
+        $.mobile.changePage($('#main'))
 
       return
 
