@@ -67,10 +67,17 @@
           var selected;
           selected = $('#main #categories input:checked');
           if (!selected.length) {
-            return alert('Please select some categories below.');
+            return _this.showError('Please select some categories from the menu.');
           }
           return $.mobile.changePage($('#quiz'));
         });
+      },
+      showError: function(msg) {
+        $.mobile.changePage('#error', {
+          transition: 'slidedown',
+          role: 'dialog'
+        });
+        return $('#error #error-msg').text(msg);
       },
       startQuiz: function() {
         var bank, category, index, inputEl, question, selected, _i, _j, _len, _len2, _ref;

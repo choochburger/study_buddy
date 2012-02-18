@@ -66,6 +66,19 @@
 
 / end quiz complete page
 
+/ generic error dialogue
+#error{"data-role" => "page"}
+  %div{"data-role" => "header"}
+    %h1
+      Error
+  %div{"data-role" => "content"}
+    %p#error-msg
+    %a{:href => "#",
+       "data-rel" => "back",
+       "data-role" => "button"}
+      Ok
+/ end error dialogue
+
 / templates
 %script#category-list-template{:type => "text/x-handlebars-template"}
   {{#each this}}

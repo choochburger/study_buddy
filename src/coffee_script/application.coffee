@@ -63,8 +63,20 @@ $ ->
 
       $('#main #start-quiz-btn').click =>
         selected = $('#main #categories input:checked')
-        return alert 'Please select some categories below.' if not selected.length
+
+        if not selected.length
+          return @showError 'Please select some categories from the menu.'
+
         $.mobile.changePage $('#quiz')
+
+
+    showError: (msg) ->
+      $.mobile.changePage('#error', {
+        transition: 'slidedown'
+        role:       'dialog'
+      })
+
+      $('#error #error-msg').text(msg)
 
     startQuiz: ->
       # assemble a bank of questions based on user selection
