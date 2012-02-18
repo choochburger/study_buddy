@@ -39,10 +39,14 @@
         }
       },
       onPageChange: function(e, data) {
-        switch (location.hash) {
-          case '#quiz':
+        var id;
+        id = data.toPage.attr('id');
+        switch (id) {
+          case 'main':
+            break;
+          case 'quiz':
             return SB.App.startQuiz();
-          case '#spreadsheet-list':
+          case 'spreadsheet-list':
             return SB.App.loadSpreadsheets();
         }
       },
@@ -173,6 +177,8 @@
         var url,
           _this = this;
         url = this.getFullUrl(remoteUrl);
+        this.numToLoad = 0;
+        this.numLoaded = 0;
         $.mobile.showPageLoadingMsg();
         return $.ajax({
           url: url,
@@ -183,6 +189,7 @@
             _results = [];
             for (_i = 0, _len = _ref.length; _i < _len; _i++) {
               entry = _ref[_i];
+              _this.numToLoad++;
               baseUrl = entry.link[1].href;
               url = _this.getFullUrl(baseUrl);
               _results.push(_this.loadCells(url));
@@ -202,7 +209,7 @@
           dataType: 'jsonp',
           success: function(data) {
             var entries, i, items, _ref;
-            $.mobile.hidePageLoadingMsg();
+            _this.numLoaded++;
             items = [];
             entries = data.feed.entry;
             for (i = 0, _ref = entries.length - 1; i <= _ref; i += 2) {
@@ -212,14 +219,15 @@
                   'answer': entries[i + 1].content.$t
                 });
               } catch (error) {
-                console.log(error);
                 alert('Error in spreadsheet. Make sure it has only 2 columns: Question & Answer.');
                 return;
               }
             }
             _this.addToCategory(data.feed.title.$t, items);
-            $.mobile.changePage($('#main'));
-            return SB.App.addCategories();
+            if (_this.numLoaded === _this.numToLoad) {
+              $.mobile.hidePageLoadingMsg();
+              return $.mobile.changePage($('#main'));
+            }
           },
           error: function() {
             $.mobile.hidePageLoadingMsg();

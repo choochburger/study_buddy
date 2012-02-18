@@ -44,9 +44,11 @@ $ ->
         @loadSpreadsheets()
 
     onPageChange: (e, data) =>
-      switch location.hash
-        when '#quiz' then SB.App.startQuiz()
-        when '#spreadsheet-list' then SB.App.loadSpreadsheets()
+      id = data.toPage.attr('id')
+      switch id
+        when 'main' then return
+        when 'quiz' then SB.App.startQuiz()
+        when 'spreadsheet-list' then SB.App.loadSpreadsheets()
 
     addCategories: ->
       # add an index to each data item
@@ -159,12 +161,16 @@ $ ->
     loadSpreadsheet: (remoteUrl) ->
       url = @getFullUrl remoteUrl
 
+      @numToLoad = 0
+      @numLoaded = 0
+
       $.mobile.showPageLoadingMsg()
       $.ajax {
         url: url
         dataType: 'jsonp'
         success: (data) =>
           for entry in data.feed.entry
+            @numToLoad++
             baseUrl = entry.link[1].href
             url     = @getFullUrl baseUrl
             @loadCells url
@@ -178,7 +184,7 @@ $ ->
         url: url
         dataType: 'jsonp'
         success: (data) =>
-          $.mobile.hidePageLoadingMsg()
+          @numLoaded++
 
           items = []
           entries = data.feed.entry
@@ -190,13 +196,14 @@ $ ->
                 'answer'  : entries[i+1].content.$t
               }
             catch error
-              console.log error
               alert('Error in spreadsheet. Make sure it has only 2 columns: Question & Answer.')
               return
 
           @addToCategory data.feed.title.$t, items
-          $.mobile.changePage($('#main'))
-          SB.App.addCategories()
+
+          if @numLoaded is @numToLoad
+            $.mobile.hidePageLoadingMsg()
+            $.mobile.changePage($('#main'))
 
         error: ->
           $.mobile.hidePageLoadingMsg()
