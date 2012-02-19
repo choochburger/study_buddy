@@ -134,6 +134,7 @@
         });
       },
       quizComplete: function() {
+        $('#quiz #content').empty();
         return $.mobile.changePage('#quiz-complete', {
           transition: 'flip',
           role: 'dialog'

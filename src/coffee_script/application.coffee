@@ -131,6 +131,7 @@ $ ->
       return
 
     quizComplete: ->
+      $('#quiz #content').empty()
       $.mobile.changePage('#quiz-complete', {
         transition: 'flip'
         role:       'dialog'
