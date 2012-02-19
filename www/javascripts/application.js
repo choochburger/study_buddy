@@ -42,8 +42,6 @@
         var id;
         id = data.toPage.attr('id');
         switch (id) {
-          case 'main':
-            return SB.App.addCategories();
           case 'quiz':
             return SB.App.startQuiz();
           case 'spreadsheet-list':
@@ -93,7 +91,22 @@
             bank.push(question);
           }
         }
+        $('#quiz #flip-data').unbind('click').bind('click', {
+          'bank': bank
+        }, this.flipData);
         return this.nextQuestion(bank, 0);
+      },
+      flipData: function(e) {
+        var answer, bank, entry, question, _i, _len;
+        bank = e.data.bank;
+        for (_i = 0, _len = bank.length; _i < _len; _i++) {
+          entry = bank[_i];
+          question = entry.question;
+          answer = entry.answer;
+          entry.question = answer;
+          entry.answer = question;
+        }
+        return SB.App.nextQuestion(bank, 0);
       },
       nextQuestion: function(bank, index) {
         var $btnsContainer, $contentEl, $gotItBtn, $nextQuestionBtn, $question, $shuffleBtn, btns, context, html,
@@ -236,7 +249,8 @@
             _this.addToCategory(data.feed.title.$t, items);
             if (_this.numLoaded === _this.numToLoad) {
               $.mobile.hidePageLoadingMsg();
-              return $.mobile.changePage($('#main'));
+              $.mobile.changePage($('#main'));
+              return SB.App.addCategories();
             }
           },
           error: function() {

@@ -46,7 +46,6 @@ $ ->
     onPageChange: (e, data) =>
       id = data.toPage.attr('id')
       switch id
-        when 'main' then SB.App.addCategories()
         when 'quiz' then SB.App.startQuiz()
         when 'spreadsheet-list' then SB.App.loadSpreadsheets()
 
@@ -89,7 +88,20 @@ $ ->
         for question in category.items
           bank.push question
 
+      $('#quiz #flip-data').unbind('click')
+                           .bind('click', {'bank': bank}, @flipData)
+
       @nextQuestion bank, 0
+
+    flipData: (e) =>
+      bank = e.data.bank
+      for entry in bank
+        question = entry.question
+        answer   = entry.answer
+        entry.question = answer
+        entry.answer   = question
+
+      SB.App.nextQuestion bank, 0
 
     nextQuestion: (bank, index) ->
       $contentEl = $('#quiz #content')
@@ -219,6 +231,7 @@ $ ->
           if @numLoaded is @numToLoad
             $.mobile.hidePageLoadingMsg()
             $.mobile.changePage($('#main'))
+            SB.App.addCategories()
 
         error: ->
           $.mobile.hidePageLoadingMsg()
