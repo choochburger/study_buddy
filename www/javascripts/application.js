@@ -43,7 +43,7 @@
         id = data.toPage.attr('id');
         switch (id) {
           case 'main':
-            break;
+            return SB.App.addCategories();
           case 'quiz':
             return SB.App.startQuiz();
           case 'spreadsheet-list':

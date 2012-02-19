@@ -46,7 +46,7 @@ $ ->
     onPageChange: (e, data) =>
       id = data.toPage.attr('id')
       switch id
-        when 'main' then return
+        when 'main' then SB.App.addCategories()
         when 'quiz' then SB.App.startQuiz()
         when 'spreadsheet-list' then SB.App.loadSpreadsheets()
 
