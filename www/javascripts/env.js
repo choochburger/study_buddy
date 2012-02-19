@@ -10,7 +10,7 @@ SB.Env = (function() {
   } else {
     // cldn
     return {
-      redirectUri: 'http://www.chrislyons.net/sandbox/study_buddy/www/'
+      redirectUri: 'http://studybuddy.chrislyons.net'
     }
   }
 })();
