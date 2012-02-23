@@ -59,7 +59,8 @@ $ ->
       @removeDialogX()
 
     removeDialogX: ->
-      $('.ui-dialog .ui-btn-icon-notext .ui-icon').closest('a').remove()
+      $('.ui-dialog .ui-btn-icon-notext .ui-icon').closest('a')
+                                                  .remove()
 
     addCategories: ->
       # add an index to each data item
@@ -160,6 +161,7 @@ $ ->
         transition: 'flip'
         role:       'dialog'
       })
+      @removeDialogX()
 
     loadSpreadsheets: ->
       if not SB.Credentials.access_token

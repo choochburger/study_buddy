@@ -22,20 +22,23 @@
 
   %a#start-quiz-btn{"data-role" => "button",
                     "data-icon" => "arrow-r",
+                    "data-transition" => "slide",
                     "data-theme" => "b"}
     Start Studying
 
   %a#load-spreadsheets{"data-role" => "button",
                        "data-icon" => "arrow-r",
                        "data-theme" => "e",
+                       "data-transition" => "slide",
                        :href => "#spreadsheet-list"}
     Load Data
 
   %div{"data-position" => "fixed",
        "data-role" => "footer"}
-    %a#load-spreadsheets{"data-role" => "button",
-                         "data-icon" => "info",
-                         :href => "#help"}
+    %a#help{"data-role" => "button",
+            "data-icon" => "info",
+            "data-transition" => "slidedown",
+            :href => "#help"}
       Help!
 
 #no-data{"data-role" => "page"}
@@ -46,11 +49,13 @@
     %p
       We couldn't find any saved data. Want to load a spreadsheet from your google docs account? 
     %a#load-data{:href => "#spreadsheet-list",
+                 "data-transition" => "slideup",
                  "data-role" => "button"}
       Load Data
     %p
       Or maybe this is your first time using Study Buddy and you'd like some help?
     %a#help{:href => "#help",
+            "data-transition" => "slideup",
             "data-role" => "button"}
       Help Me!
 
@@ -73,13 +78,16 @@
     %li
       You'll now be presented with a list containing all of the workseets (aka categories) that you just created. Nice! Choose the categories you'd like to quiz yourself on and press begin to start the adventure... ok, not gonna lie, studying blows, but whatever... try to have fun!
     %li
-      Oh yeah, study buddy caches your questions/answers locally, so you only have to load in new data if you change things or clear your browser cache.
+      Oh yeah, study buddy caches your questions/answers locally, so you only have to load in new data if you change things or clear your browser cache. Word.
   %strong
     Use these links to get started:
   %a{:href => "http://docs.google.com",
+              "data-theme" => "b",
               "data-role" => "button"}
-    Go to google docs
+    Go to Google Docs
   %a{:href => "#spreadsheet-list",
+              "data-transition" => "slide",
+              "data-theme" => "e",
               "data-role" => "button"}
     I have some data already. Let's load it!
 
@@ -106,9 +114,10 @@
     %h1
       Quiz Complete.
   %div{"data-role" => "content"}
-    %p
+    %h2
       Nice job!
     %a{:href => "#main",
+       "data-transition" => "flip",
        "data-role" => "button"}
       Start Over?
 

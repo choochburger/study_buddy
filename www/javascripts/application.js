@@ -162,10 +162,11 @@
       },
       quizComplete: function() {
         $('#quiz #content').empty();
-        return $.mobile.changePage('#quiz-complete', {
+        $.mobile.changePage('#quiz-complete', {
           transition: 'flip',
           role: 'dialog'
         });
+        return this.removeDialogX();
       },
       loadSpreadsheets: function() {
         var baseUrl, url,

@@ -20,14 +20,14 @@
       No data loaded.
     </p>
   </div>
-  <a data-icon='arrow-r' data-role='button' data-theme='b' id='start-quiz-btn'>
+  <a data-icon='arrow-r' data-role='button' data-theme='b' data-transition='slide' id='start-quiz-btn'>
     Start Studying
   </a>
-  <a data-icon='arrow-r' data-role='button' data-theme='e' href='#spreadsheet-list' id='load-spreadsheets'>
+  <a data-icon='arrow-r' data-role='button' data-theme='e' data-transition='slide' href='#spreadsheet-list' id='load-spreadsheets'>
     Load Data
   </a>
   <div data-position='fixed' data-role='footer'>
-    <a data-icon='info' data-role='button' href='#help' id='load-spreadsheets'>
+    <a data-icon='info' data-role='button' data-transition='slidedown' href='#help' id='help'>
       Help!
     </a>
   </div>
@@ -42,13 +42,13 @@
     <p>
       We couldn't find any saved data. Want to load a spreadsheet from your google docs account?
     </p>
-    <a data-role='button' href='#spreadsheet-list' id='load-data'>
+    <a data-role='button' data-transition='slideup' href='#spreadsheet-list' id='load-data'>
       Load Data
     </a>
     <p>
       Or maybe this is your first time using Study Buddy and you'd like some help?
     </p>
-    <a data-role='button' href='#help' id='help'>
+    <a data-role='button' data-transition='slideup' href='#help' id='help'>
       Help Me!
     </a>
   </div>
@@ -79,16 +79,16 @@
       You'll now be presented with a list containing all of the workseets (aka categories) that you just created. Nice! Choose the categories you'd like to quiz yourself on and press begin to start the adventure... ok, not gonna lie, studying blows, but whatever... try to have fun!
     </li>
     <li>
-      Oh yeah, study buddy caches your questions/answers locally, so you only have to load in new data if you change things or clear your browser cache.
+      Oh yeah, study buddy caches your questions/answers locally, so you only have to load in new data if you change things or clear your browser cache. Word.
     </li>
   </ol>
   <strong>
     Use these links to get started:
   </strong>
-  <a data-role='button' href='http://docs.google.com'>
-    Go to google docs
+  <a data-role='button' data-theme='b' href='http://docs.google.com'>
+    Go to Google Docs
   </a>
-  <a data-role='button' href='#spreadsheet-list'>
+  <a data-role='button' data-theme='e' data-transition='slide' href='#spreadsheet-list'>
     I have some data already. Let's load it!
   </a>
 </div>
@@ -115,10 +115,10 @@
     </h1>
   </div>
   <div data-role='content'>
-    <p>
+    <h2>
       Nice job!
-    </p>
-    <a data-role='button' href='#main'>
+    </h2>
+    <a data-role='button' data-transition='flip' href='#main'>
       Start Over?
     </a>
   </div>
