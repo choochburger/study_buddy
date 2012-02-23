@@ -57,9 +57,6 @@ $ ->
         role:       'dialog'
       })
 
-      $('#no-data #help').click =>
-        console.log 'help'
-
     addCategories: ->
       # add an index to each data item
       for index, category of SB.Data.categories
@@ -161,7 +158,6 @@ $ ->
       })
 
     loadSpreadsheets: ->
-      console.log @
       if not SB.Credentials.access_token
         @authenticateUser()
         return

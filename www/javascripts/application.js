@@ -53,13 +53,9 @@
         }
       },
       noDataFound: function() {
-        var _this = this;
-        $.mobile.changePage('#no-data', {
+        return $.mobile.changePage('#no-data', {
           transition: 'slidedown',
           role: 'dialog'
-        });
-        return $('#no-data #help').click(function() {
-          return console.log('help');
         });
       },
       addCategories: function() {
@@ -170,7 +166,6 @@
       loadSpreadsheets: function() {
         var baseUrl, url,
           _this = this;
-        console.log(this);
         if (!SB.Credentials.access_token) {
           this.authenticateUser();
           return;

@@ -14,18 +14,21 @@
 <div data-role='page' id='main'>
   <div data-role='header'>
     <h4>Categories</h4>
-    <a data-role='button' data-theme='b' id='start-quiz-btn'>
-      Begin
-    </a>
   </div>
   <div data-role='controlgroup' id='categories'>
     <p>
       No data loaded.
     </p>
   </div>
+  <a data-role='button' data-theme='b' id='start-quiz-btn'>
+    Start Studying
+  </a>
+  <a data-role='button' data-theme='c' href='#spreadsheet-list' id='load-spreadsheets'>
+    Load Data
+  </a>
   <div data-position='fixed' data-role='footer'>
-    <a data-role='button' href='#spreadsheet-list' id='load-spreadsheets'>
-      Load Data
+    <a data-role='button' href='#help' id='load-spreadsheets'>
+      Help!
     </a>
   </div>
 </div>
@@ -51,9 +54,43 @@
   </div>
 </div>
 <div data-role='page' id='help'>
+  <div data-role='header'>
+    <h1>
+      Help
+    </h1>
+  </div>
   <p>
-    Help goes here...
+    Welcome to Study Buddy! This is designed to be a super simple, mobile friendly study app to help you memorize things quickly. Here's how to get started:
   </p>
+  <ol>
+    <li>
+      Study Buddy uses google spreadsheets that you create as it's data source. The first step is to create a new spreadsheet in your google docs account (seriously you don't have one yet?? Click the button below to sign up. It's free!).
+    </li>
+    <li>
+      Type your questions in the first column of the spreadsheet and your answers in the second column of the spreadsheet next to the questions. Easy, right? Beats the hell out of making flash cards!
+    </li>
+    <li>
+      If you are studying multiple "categories" of stuff, simply create a new worksheet for each category. Make sure to name the worksheets so you can track them down in Study Buddy.
+    </li>
+    <li>
+      Click "Load Data" when you start the app. Login to your google account and choose your new spreadsheet from the list.
+    </li>
+    <li>
+      You'll now be presented with a list containing all of the workseets (aka categories) that you just created. Nice! Choose the categories you'd like to quiz yourself on and press begin to start the adventure... ok, not gonna lie, studying blows, but whatever... try to have fun!
+    </li>
+    <li>
+      Oh yeah, study buddy caches your questions/answers locally, so you only have to load in new data if you change things or clear your browser cache.
+    </li>
+  </ol>
+  <strong>
+    Use these links to get started:
+  </strong>
+  <a data-role='button' href='http://docs.google.com'>
+    Go to google docs
+  </a>
+  <a data-role='button' href='#spreadsheet-list'>
+    I have some data already. Let's load it!
+  </a>
 </div>
 <div data-role='page' id='quiz'>
   <div data-role='header'>
