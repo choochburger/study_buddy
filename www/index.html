@@ -11,7 +11,6 @@
     <script src='javascripts/application.js' type='text/javascript'></script>
   </head>
 </html>
-<!-- main page: categories -->
 <div data-role='page' id='main'>
   <div data-role='header'>
     <h4>Categories</h4>
@@ -19,15 +18,43 @@
       Begin
     </a>
   </div>
-  <div data-role='controlgroup' id='categories'></div>
+  <div data-role='controlgroup' id='categories'>
+    <p>
+      No data loaded.
+    </p>
+  </div>
   <div data-position='fixed' data-role='footer'>
     <a data-role='button' href='#spreadsheet-list' id='load-spreadsheets'>
       Load Data
     </a>
   </div>
 </div>
-<!-- end categories -->
-<!-- quiz page -->
+<div data-role='page' id='no-data'>
+  <div data-role='header'>
+    <h1>
+      Study Buddy
+    </h1>
+  </div>
+  <div data-role='content'>
+    <p>
+      We couldn't find any saved data. Want to load a spreadsheet from your google docs account?
+    </p>
+    <a data-role='button' href='#spreadsheet-list' id='load-data'>
+      Load Data
+    </a>
+    <p>
+      Or maybe this is your first time using Study Buddy and you'd like some help?
+    </p>
+    <a data-role='button' href='#help' id='help'>
+      Help Me!
+    </a>
+  </div>
+</div>
+<div data-role='page' id='help'>
+  <p>
+    Help goes here...
+  </p>
+</div>
 <div data-role='page' id='quiz'>
   <div data-role='header'>
     <a data-direction='reverse' data-icon='home' data-role='button' href='#main'>Back</a>
@@ -38,16 +65,12 @@
   </div>
   <div id='content'></div>
 </div>
-<!-- end quiz -->
-<!-- data loading page -->
 <div data-role='page' id='spreadsheet-list'>
   <div data-role='header'>
     <h4>Choose a Spreadsheet</h4>
   </div>
   <ul data-role='listview' id='spreadsheets'></ul>
 </div>
-<!-- end data loading page -->
-<!-- quiz complete page -->
 <div data-role='page' id='quiz-complete'>
   <div data-role='header'>
     <h1>
@@ -63,8 +86,6 @@
     </a>
   </div>
 </div>
-<!-- end quiz complete page -->
-<!-- generic error dialogue -->
 <div data-role='page' id='error'>
   <div data-role='header'>
     <h1>
@@ -78,8 +99,6 @@
     </a>
   </div>
 </div>
-<!-- end error dialogue -->
-<!-- templates -->
 <script id='category-list-template' type='text/x-handlebars-template'>
   {{#each this}}
   <li>

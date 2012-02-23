@@ -37,17 +37,28 @@ $ ->
       SB.Data.categories = []
 
     startApp: ->
-      # if no data is found, direct user to spreadsheet selection
       if (SB.Data.categories.length)
         @addCategories()
       else
-        @loadSpreadsheets()
+        if SB.Credentials.access_token
+          @loadSpreadsheets()
+        else
+          @noDataFound()
 
     onPageChange: (e, data) =>
       id = data.toPage.attr('id')
       switch id
         when 'quiz' then SB.App.startQuiz()
         when 'spreadsheet-list' then SB.App.loadSpreadsheets()
+
+    noDataFound: ->
+      $.mobile.changePage('#no-data', {
+        transition: 'slidedown'
+        role:       'dialog'
+      })
+
+      $('#no-data #help').click =>
+        console.log 'help'
 
     addCategories: ->
       # add an index to each data item
@@ -150,6 +161,7 @@ $ ->
       })
 
     loadSpreadsheets: ->
+      console.log @
       if not SB.Credentials.access_token
         @authenticateUser()
         return

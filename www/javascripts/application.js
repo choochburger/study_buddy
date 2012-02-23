@@ -35,7 +35,11 @@
         if (SB.Data.categories.length) {
           return this.addCategories();
         } else {
-          return this.loadSpreadsheets();
+          if (SB.Credentials.access_token) {
+            return this.loadSpreadsheets();
+          } else {
+            return this.noDataFound();
+          }
         }
       },
       onPageChange: function(e, data) {
@@ -47,6 +51,16 @@
           case 'spreadsheet-list':
             return SB.App.loadSpreadsheets();
         }
+      },
+      noDataFound: function() {
+        var _this = this;
+        $.mobile.changePage('#no-data', {
+          transition: 'slidedown',
+          role: 'dialog'
+        });
+        return $('#no-data #help').click(function() {
+          return console.log('help');
+        });
       },
       addCategories: function() {
         var $container, category, html, index, _ref,
@@ -156,6 +170,7 @@
       loadSpreadsheets: function() {
         var baseUrl, url,
           _this = this;
+        console.log(this);
         if (!SB.Credentials.access_token) {
           this.authenticateUser();
           return;

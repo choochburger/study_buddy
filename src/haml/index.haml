@@ -12,7 +12,6 @@
     %script{:type => "text/javascript", :src => "javascripts/env.js"}
     %script{:type => "text/javascript", :src => "javascripts/application.js"}
 
-/ main page: categories
 #main{"data-role" => "page"}
   %div{"data-role" => "header"}
     %h4 Categories
@@ -21,15 +20,35 @@
       Begin
 
   #categories{"data-role" => "controlgroup"}
+    %p
+      No data loaded.
 
   %div{"data-position" => "fixed",
        "data-role" => "footer"}
     %a#load-spreadsheets{"data-role" => "button",
                          :href => "#spreadsheet-list"}
       Load Data
-/ end categories
 
-/ quiz page
+#no-data{"data-role" => "page"}
+  %div{"data-role" => "header"}
+    %h1
+      Study Buddy
+  %div{"data-role" => "content"}
+    %p
+      We couldn't find any saved data. Want to load a spreadsheet from your google docs account? 
+    %a#load-data{:href => "#spreadsheet-list",
+                 "data-role" => "button"}
+      Load Data
+    %p
+      Or maybe this is your first time using Study Buddy and you'd like some help?
+    %a#help{:href => "#help",
+            "data-role" => "button"}
+      Help Me!
+
+#help{"data-role" => "page"}
+  %p
+    Help goes here...
+
 #quiz{"data-role" => "page"}
   %div{"data-role" => "header"}
     %a{:href => "#main",
@@ -42,18 +61,12 @@
 
   #content
 
-/ end quiz
-
-/ data loading page
 #spreadsheet-list{"data-role" => "page"}
   %div{"data-role" => "header"}
     %h4 Choose a Spreadsheet
 
   %ul#spreadsheets{"data-role" => "listview"}
 
-/ end data loading page
-
-/ quiz complete page
 #quiz-complete{"data-role" => "page"}
   %div{"data-role" => "header"}
     %h1
@@ -65,9 +78,6 @@
        "data-role" => "button"}
       Start Over?
 
-/ end quiz complete page
-
-/ generic error dialogue
 #error{"data-role" => "page"}
   %div{"data-role" => "header"}
     %h1
@@ -78,9 +88,7 @@
        "data-rel" => "back",
        "data-role" => "button"}
       Ok
-/ end error dialogue
 
-/ templates
 %script#category-list-template{:type => "text/x-handlebars-template"}
   {{#each this}}
   %li
