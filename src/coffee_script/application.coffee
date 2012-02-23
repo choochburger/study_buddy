@@ -56,6 +56,10 @@ $ ->
         transition: 'slidedown'
         role:       'dialog'
       })
+      @removeDialogX()
+
+    removeDialogX: ->
+      $('.ui-dialog .ui-btn-icon-notext .ui-icon').closest('a').remove()
 
     addCategories: ->
       # add an index to each data item

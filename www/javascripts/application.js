@@ -53,10 +53,14 @@
         }
       },
       noDataFound: function() {
-        return $.mobile.changePage('#no-data', {
+        $.mobile.changePage('#no-data', {
           transition: 'slidedown',
           role: 'dialog'
         });
+        return this.removeDialogX();
+      },
+      removeDialogX: function() {
+        return $('.ui-dialog .ui-btn-icon-notext .ui-icon').closest('a').remove();
       },
       addCategories: function() {
         var $container, category, html, index, _ref,
