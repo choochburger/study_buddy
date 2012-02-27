@@ -1,2 +1,0 @@
-watch /src\/.*\.haml/ do |md| `thor convert:haml` end
-watch /src\/.*\.coffee/ do |md| `thor convert:coffee` end
