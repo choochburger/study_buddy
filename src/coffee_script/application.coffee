@@ -143,7 +143,8 @@ $ ->
 
       $gotItBtn.click (e) =>
         bank.remove(index)
-        if bank.length is 0 then @quizComplete() else @nextQuestion bank, index
+        nextIndex = bank.length - 1
+        if nextIndex < 0 then @quizComplete() else @nextQuestion bank, nextIndex
 
       $nextQuestionBtn.click (e) =>
         index++
