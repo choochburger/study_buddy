@@ -1,4 +1,11 @@
+JS = ./www/javascripts
+
 all: haml coffeescript javascripts stylesheets favicon
+
+concat-js: $(JS_SRC)
+	cat $(JS)/*.js > $(JS)/temp
+	rm $(JS)/*.js
+	mv $(JS)/temp $(JS)/application.js
 
 haml:
 	haml ./src/haml/index.haml ./www/index.html
