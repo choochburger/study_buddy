@@ -144,11 +144,13 @@
           return _this.nextQuestion(bank, 0);
         });
         $gotItBtn.click(function(e) {
+          var nextIndex;
           bank.remove(index);
-          if (bank.length === 0) {
+          nextIndex = bank.length - 1;
+          if (nextIndex < 0) {
             return _this.quizComplete();
           } else {
-            return _this.nextQuestion(bank, index);
+            return _this.nextQuestion(bank, nextIndex);
           }
         });
         $nextQuestionBtn.click(function(e) {
