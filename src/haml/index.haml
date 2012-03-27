@@ -16,10 +16,6 @@
   %div{"data-role" => "header"}
     %h4 Categories
 
-  #categories{"data-role" => "controlgroup"}
-    %p
-      No data loaded.
-
   %a#start-quiz-btn{"data-role" => "button",
                     "data-icon" => "arrow-r",
                     "data-transition" => "slide",
@@ -32,6 +28,10 @@
                        "data-transition" => "slide",
                        :href => "#spreadsheet-list"}
     Load Data
+
+  #categories{"data-role" => "controlgroup"}
+    %p
+      No data loaded.
 
   %div{"data-position" => "fixed",
        "data-role" => "footer"}
