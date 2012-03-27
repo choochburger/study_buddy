@@ -73,18 +73,29 @@ $ ->
       $(html).appendTo($container)
       $('#main').trigger('create')
 
-      $('#main #start-quiz-btn').click =>
-        selected = $('#main #categories input:checked')
+      # not really sure why i have to proxy and can't use => on the method...
+      $('#main #start-quiz-btn').click $.proxy(@startQuizClick, @)
+      $('#main #select-all-btn').click @selectAllClick
 
-        if not selected.length
-          return @showError 'Please select some categories from the menu.'
+    startQuizClick: ->
+      selected = $('#main #categories input:checked')
 
-        $.mobile.changePage $('#quiz')
+      if not selected.length
+        return @showError 'Please select some categories from the menu.'
 
-      $('#main #select-all-btn').click ->
-        $container.find('input').attr('checked', true).checkboxradio('refresh')
+      $.mobile.changePage $('#quiz')
 
-      return
+    selectAllClick: (e) ->
+      $data = $(e.target).data()
+
+      if $data.allChecked is true
+        $data.allChecked = false
+      else
+        $data.allChecked = true
+
+      $inputs = $('#main #categories input')
+      $inputs.attr('checked', $data.allChecked)
+             .checkboxradio('refresh')
 
     showError: (msg) ->
       $.mobile.changePage('#error', {

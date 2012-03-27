@@ -63,8 +63,7 @@
         return $('.ui-dialog .ui-btn-icon-notext .ui-icon').closest('a').remove();
       },
       addCategories: function() {
-        var $container, category, html, index, _ref,
-          _this = this;
+        var $container, category, html, index, _ref;
         _ref = SB.Data.categories;
         for (index in _ref) {
           category = _ref[index];
@@ -75,17 +74,27 @@
         html = SB.Templates.categories(SB.Data.categories);
         $(html).appendTo($container);
         $('#main').trigger('create');
-        $('#main #start-quiz-btn').click(function() {
-          var selected;
-          selected = $('#main #categories input:checked');
-          if (!selected.length) {
-            return _this.showError('Please select some categories from the menu.');
-          }
-          return $.mobile.changePage($('#quiz'));
-        });
-        $('#main #select-all-btn').click(function() {
-          return $container.find('input').attr('checked', true).checkboxradio('refresh');
-        });
+        $('#main #start-quiz-btn').click($.proxy(this.startQuizClick, this));
+        return $('#main #select-all-btn').click(this.selectAllClick);
+      },
+      startQuizClick: function() {
+        var selected;
+        selected = $('#main #categories input:checked');
+        if (!selected.length) {
+          return this.showError('Please select some categories from the menu.');
+        }
+        return $.mobile.changePage($('#quiz'));
+      },
+      selectAllClick: function(e) {
+        var $data, $inputs;
+        $data = $(e.target).data();
+        if ($data.allChecked === true) {
+          $data.allChecked = false;
+        } else {
+          $data.allChecked = true;
+        }
+        $inputs = $('#main #categories input');
+        return $inputs.attr('checked', $data.allChecked).checkboxradio('refresh');
       },
       showError: function(msg) {
         $.mobile.changePage('#error', {
