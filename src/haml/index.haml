@@ -35,11 +35,14 @@
 
   %div{"data-position" => "fixed",
        "data-role" => "footer"}
-    %a#help{"data-role" => "button",
-            "data-icon" => "info",
-            "data-transition" => "slidedown",
-            :href => "#help"}
+    %a#help-btn{"data-role" => "button",
+                "data-icon" => "info",
+                "data-transition" => "slidedown",
+                :href => "#help"}
       Help!
+    %a#select-all-btn{"data-role" => "button",
+                  "data-icon" => "check"}
+      Select All
 
 #no-data{"data-role" => "page"}
   %div{"data-role" => "header"}

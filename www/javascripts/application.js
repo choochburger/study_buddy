@@ -75,13 +75,16 @@
         html = SB.Templates.categories(SB.Data.categories);
         $(html).appendTo($container);
         $('#main').trigger('create');
-        return $('#main #start-quiz-btn').click(function() {
+        $('#main #start-quiz-btn').click(function() {
           var selected;
           selected = $('#main #categories input:checked');
           if (!selected.length) {
             return _this.showError('Please select some categories from the menu.');
           }
           return $.mobile.changePage($('#quiz'));
+        });
+        $('#main #select-all-btn').click(function() {
+          return $container.find('input').attr('checked', true).checkboxradio('refresh');
         });
       },
       showError: function(msg) {

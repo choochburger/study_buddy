@@ -81,6 +81,10 @@ $ ->
 
         $.mobile.changePage $('#quiz')
 
+      $('#main #select-all-btn').click ->
+        $container.find('input').attr('checked', true).checkboxradio('refresh')
+
+      return
 
     showError: (msg) ->
       $.mobile.changePage('#error', {
