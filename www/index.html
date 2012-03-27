@@ -33,6 +33,9 @@
     <a data-icon='check' data-role='button' id='select-all-btn'>
       Select All
     </a>
+    <a data-icon='grid' data-role='button' id='quick-view-btn'>
+      Quick View
+    </a>
   </div>
 </div>
 <div data-role='page' id='no-data'>
@@ -111,6 +114,12 @@
   </div>
   <ul data-role='listview' id='spreadsheets'></ul>
 </div>
+<div data-role='page' id='quick-view'>
+  <ul data-filter='true' data-role='listview'></ul>
+  <div data-position='fixed' data-role='footer'>
+    <a data-direction='reverse' data-icon='home' data-role='button' href='#main'>Back</a>
+  </div>
+</div>
 <div data-role='page' id='quiz-complete'>
   <div data-role='header'>
     <h1>
@@ -168,6 +177,14 @@
   {{#each this}}
   <li>
     <a remote-url='{{first link attr="href"}}'>{{title/$t}}</a>
+  </li>
+  {{/each}}
+</script>
+<script id='quick-view-list-template' type='text/x-handlebars-template'>
+  {{#each this}}
+  <li>
+    <h3>{{question}}</h3>
+    <h4>{{answer}}</h4>
   </li>
   {{/each}}
 </script>

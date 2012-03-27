@@ -40,9 +40,14 @@
                 "data-transition" => "slidedown",
                 :href => "#help"}
       Help!
+
     %a#select-all-btn{"data-role" => "button",
                   "data-icon" => "check"}
       Select All
+
+    %a#quick-view-btn{"data-role" => "button",
+                      "data-icon" => "grid"}
+      Quick View
 
 #no-data{"data-role" => "page"}
   %div{"data-role" => "header"}
@@ -112,6 +117,17 @@
 
   %ul#spreadsheets{"data-role" => "listview"}
 
+#quick-view{"data-role" => "page"}
+  %ul{"data-role" => "listview",
+      "data-filter" => "true"}
+
+  %div{"data-position" => "fixed",
+       "data-role" => "footer"}
+    %a{:href => "#main",
+       "data-icon" => "home",
+       "data-role" => "button", 
+       "data-direction" => "reverse"} Back
+
 #quiz-complete{"data-role" => "page"}
   %div{"data-role" => "header"}
     %h1
@@ -162,4 +178,11 @@
   {{#each this}}
   %li
     %a{"remote-url" => "{{first link attr=\"href\"}}"} {{title/$t}}
+  {{/each}}
+
+%script#quick-view-list-template{:type => "text/x-handlebars-template"}
+  {{#each this}}
+  %li
+    %h3 {{question}}
+    %h4 {{answer}}
   {{/each}}

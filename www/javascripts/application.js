@@ -50,6 +50,8 @@
             return SB.App.startQuiz();
           case 'spreadsheet-list':
             return SB.App.loadSpreadsheets();
+          case 'quick-view':
+            return SB.App.showQuickView();
         }
       },
       noDataFound: function() {
@@ -74,18 +76,24 @@
         html = SB.Templates.categories(SB.Data.categories);
         $(html).appendTo($container);
         $('#main').trigger('create');
-        $('#main #start-quiz-btn').click($.proxy(this.startQuizClick, this));
-        return $('#main #select-all-btn').click(this.selectAllClick);
+        $('#main #start-quiz-btn').click($.proxy(this.onStartQuizClick, this));
+        $('#main #select-all-btn').click($.proxy(this.onSelectAllClick, this));
+        return $('#main #quick-view-btn').click($.proxy(this.onQuickViewClick, this));
       },
-      startQuizClick: function() {
+      onStartQuizClick: function() {
+        if (!this.checkForSelected()) return;
+        return $.mobile.changePage($('#quiz'));
+      },
+      checkForSelected: function() {
         var selected;
         selected = $('#main #categories input:checked');
         if (!selected.length) {
-          return this.showError('Please select some categories from the menu.');
+          this.showError('Please select some categories from the menu.');
+          return false;
         }
-        return $.mobile.changePage($('#quiz'));
+        return true;
       },
-      selectAllClick: function(e) {
+      onSelectAllClick: function(e) {
         var $data, $inputs;
         $data = $(e.target).data();
         if ($data.allChecked === true) {
@@ -96,6 +104,10 @@
         $inputs = $('#main #categories input');
         return $inputs.attr('checked', $data.allChecked).checkboxradio('refresh');
       },
+      onQuickViewClick: function(e) {
+        if (!this.checkForSelected()) return;
+        return $.mobile.changePage($('#quick-view'));
+      },
       showError: function(msg) {
         $.mobile.changePage('#error', {
           transition: 'slidedown',
@@ -104,6 +116,14 @@
         return $('#error #error-msg').text(msg);
       },
       startQuiz: function() {
+        var bank;
+        bank = this.getBankFromSelected();
+        $('#quiz #flip-data').unbind('click').bind('click', {
+          'bank': bank
+        }, this.flipData);
+        return this.nextQuestion(bank, 0);
+      },
+      getBankFromSelected: function() {
         var bank, category, index, inputEl, question, selected, _i, _j, _len, _len2, _ref;
         bank = [];
         selected = $('#main #categories input:checked');
@@ -117,10 +137,7 @@
             bank.push(question);
           }
         }
-        $('#quiz #flip-data').unbind('click').bind('click', {
-          'bank': bank
-        }, this.flipData);
-        return this.nextQuestion(bank, 0);
+        return bank;
       },
       flipData: function(e) {
         var answer, bank, entry, question, _i, _len;
@@ -315,12 +332,21 @@
         parameters = "" + responseType + "&" + clientId + "&" + redirectUri + "&" + scope;
         fullUrl = "" + baseUrl + "?" + parameters;
         return window.location = fullUrl;
+      },
+      showQuickView: function() {
+        var $list, bank, html;
+        bank = this.getBankFromSelected();
+        html = SB.Templates.quickview(bank);
+        $list = $('#quick-view ul');
+        $list.append(html);
+        return $list.listview('refresh');
       }
     };
     SB.Templates = {
       categories: Handlebars.compile($('#category-list-template').html()),
       question: Handlebars.compile($('#question-template').html()),
-      spreadsheets: Handlebars.compile($('#spreadsheet-list-template').html())
+      spreadsheets: Handlebars.compile($('#spreadsheet-list-template').html()),
+      quickview: Handlebars.compile($('#quick-view-list-template').html())
     };
     return SB.App.init();
   });

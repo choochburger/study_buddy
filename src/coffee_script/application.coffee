@@ -48,8 +48,9 @@ $ ->
     onPageChange: (e, data) =>
       id = data.toPage.attr('id')
       switch id
-        when 'quiz' then SB.App.startQuiz()
+        when 'quiz'             then SB.App.startQuiz()
         when 'spreadsheet-list' then SB.App.loadSpreadsheets()
+        when 'quick-view'       then SB.App.showQuickView()
 
     noDataFound: ->
       $.mobile.changePage('#no-data', {
@@ -74,18 +75,24 @@ $ ->
       $('#main').trigger('create')
 
       # not really sure why i have to proxy and can't use => on the method...
-      $('#main #start-quiz-btn').click $.proxy(@startQuizClick, @)
-      $('#main #select-all-btn').click @selectAllClick
+      $('#main #start-quiz-btn').click $.proxy(@onStartQuizClick, @)
+      $('#main #select-all-btn').click $.proxy(@onSelectAllClick, @)
+      $('#main #quick-view-btn').click $.proxy(@onQuickViewClick, @)
 
-    startQuizClick: ->
+    onStartQuizClick: ->
+      return if not @checkForSelected()
+      $.mobile.changePage $('#quiz')
+
+    checkForSelected: ->
       selected = $('#main #categories input:checked')
 
       if not selected.length
-        return @showError 'Please select some categories from the menu.'
+        @showError 'Please select some categories from the menu.'
+        return false
 
-      $.mobile.changePage $('#quiz')
+      return true
 
-    selectAllClick: (e) ->
+    onSelectAllClick: (e) ->
       $data = $(e.target).data()
 
       if $data.allChecked is true
@@ -97,6 +104,10 @@ $ ->
       $inputs.attr('checked', $data.allChecked)
              .checkboxradio('refresh')
 
+    onQuickViewClick: (e) ->
+      return if not @checkForSelected()
+      $.mobile.changePage $('#quick-view')
+
     showError: (msg) ->
       $.mobile.changePage('#error', {
         transition: 'slidedown'
@@ -107,6 +118,14 @@ $ ->
 
     startQuiz: ->
       # assemble a bank of questions based on user selection
+      bank = @getBankFromSelected()
+
+      $('#quiz #flip-data').unbind('click')
+                           .bind('click', {'bank': bank}, @flipData)
+
+      @nextQuestion bank, 0
+
+    getBankFromSelected: ->
       bank = []
       selected = $('#main #categories input:checked')
 
@@ -116,10 +135,7 @@ $ ->
         for question in category.items
           bank.push question
 
-      $('#quiz #flip-data').unbind('click')
-                           .bind('click', {'bank': bank}, @flipData)
-
-      @nextQuestion bank, 0
+      bank
 
     flipData: (e) =>
       bank = e.data.bank
@@ -294,10 +310,19 @@ $ ->
 
       window.location = fullUrl
 
+    showQuickView: ->
+      bank  = @getBankFromSelected()
+      html  = SB.Templates.quickview(bank)
+      $list = $('#quick-view ul')
+
+      $list.append html
+      $list.listview('refresh')
+
   SB.Templates =
     categories:   Handlebars.compile $('#category-list-template').html()
     question:     Handlebars.compile $('#question-template').html()
     spreadsheets: Handlebars.compile $('#spreadsheet-list-template').html()
+    quickview:    Handlebars.compile $('#quick-view-list-template').html()
 
   # kick this shit off
   SB.App.init()
