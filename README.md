@@ -1,3 +1,5 @@
+http://studybuddy.chrislyons.net
+
 A mobile friendly study app featuring tight google spreadsheets integration.
 
 Here's a typical user flow:
